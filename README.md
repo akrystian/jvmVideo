@@ -1,2 +1,2 @@
 # jvmVideo
-New videos from workshops and confernces related to JVM.
+New videos from workshops and conferences related to JVM.
