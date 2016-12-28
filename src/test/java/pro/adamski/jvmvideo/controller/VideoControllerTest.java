@@ -18,7 +18,6 @@ import java.util.Date;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -37,12 +36,16 @@ public class VideoControllerTest{
     @Test
     public void shouldReturnListOfVideos() throws Exception{
         //given
+
         given(videoRepository.findAll()).willReturn(Arrays.asList(
                 new Video("title", "description", new Date(),
-                        Duration.ofMinutes(55), new URL("https://www.youtube.com/watch?v=0drVTNFUqgc"))));
+                        Duration.ofMinutes(55), new URL("https://www.youtube.com/watch?v=0drVTNFUqgc")),
+                new Video("title2", "description2", new Date(),
+                        Duration.ofMinutes(552), new URL("https://www.youtube.com/watch?v=0drVTNFUqgc"))
+        ));
         //then
         mvc.perform(get("/latest").accept(MediaType.TEXT_PLAIN))
-                .andExpect(status().isOk()).andExpect(content().string(""));
+                .andExpect(status().isOk());
 
     }
 }
