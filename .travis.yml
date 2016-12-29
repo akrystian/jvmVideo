@@ -15,3 +15,7 @@ deploy:
    secret: $PASSWORD_SECRET
   app: $APP_NAME
   domain: $DOMAIN_NAME
+  deployment_branch: master
+  
+  after_success:
+  - bash <(curl -s https://codecov.io/bash)
