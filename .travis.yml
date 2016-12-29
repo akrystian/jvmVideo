@@ -12,10 +12,10 @@ deploy:
   # http://docs.travis-ci.com/user/environment-variables/#Using-Settings
   user: $EMAIL_ADDRESS
   password:
-   secret: $PASSWORD_SECRET
+    secret: $PASSWORD_SECRET
   app: $APP_NAME
   domain: $DOMAIN_NAME
   deployment_branch: master
   
-  after_success:
+after_success:
   - bash <(curl -s https://codecov.io/bash)
