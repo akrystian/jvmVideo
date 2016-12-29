@@ -5,3 +5,13 @@ jdk:
 
 script:
   - "mvn test"
+
+deploy:
+  provider: openshift
+  # Configure these values on your TravisCI 'Repository Settings' page:
+  # http://docs.travis-ci.com/user/environment-variables/#Using-Settings
+  user: $EMAIL_ADDRESS
+  password:
+   secret: $PASSWORD_SECRET
+  app: $APP_NAME
+  domain: $DOMAIN_NAME
