@@ -16,7 +16,7 @@ deploy:
   app: $APP_NAME
   domain: $DOMAIN_NAME
   on:
-    branch: master
+    repo: akrystian/jvmVideo
   
 after_success:
   - bash <(curl -s https://codecov.io/bash)
