@@ -12,7 +12,7 @@ deploy:
   # http://docs.travis-ci.com/user/environment-variables/#Using-Settings
   user: $EMAIL_ADDRESS
   password:
-    secret: $PASSWORD_SECRET
+    secure: $PASSWORD_SECRET
   app: $APP_NAME
   domain: $DOMAIN_NAME
   on:
