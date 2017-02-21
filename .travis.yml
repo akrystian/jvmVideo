@@ -17,6 +17,7 @@ deploy:
   domain: $DOMAIN_NAME
   on:
     repo: akrystian/jvmVideo
+  skip_cleanup: true
   
 after_success:
   - bash <(curl -s https://codecov.io/bash)
