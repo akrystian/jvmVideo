@@ -1,0 +1,16 @@
+body {
+    padding-top: 50px;
+}
+.main {
+    padding: 40px 15px;
+    text-align: left;
+}
+
+.main > div {
+    padding-bottom: 5px;
+}
+
+
+
+
+

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+    <link href="../static/theme.css" rel="stylesheet" th:href="@{theme.css}"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:include="fragments/header :: header"/>
+<div class="container">
+    <div class="main">
+        <div th:each="v : ${videos}">
+
+            <a th:href="${youtubeLinkPrefix} + ${v.id}">
+                <img th:src="${v.thumbnailLink}"/>
+                <span th:text="${v.title}"/>
+            </a>
+            <span th:text="${v.publishDate}">Publish Date</span>
+            <span th:text="${v.description}">Description</span>
+            <span th:text="${v.duration}">Duration</span>
+        </div>
+    </div>
+</div>
+<div th:include="fragments/footer :: footer"/>
+</body>
+</html>

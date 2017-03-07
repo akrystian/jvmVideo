@@ -13,4 +13,5 @@ nohup java \
     -jar target/*.jar \
     --server.port=${OPENSHIFT_DIY_PORT} \
     --server.address=${OPENSHIFT_DIY_IP} \
+    --spring.profiles.active=test \
     --logging.file=${OPENSHIFT_DATA_DIR}jvmVideo.log &

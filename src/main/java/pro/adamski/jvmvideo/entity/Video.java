@@ -1,84 +1,80 @@
 package pro.adamski.jvmvideo.entity;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.net.URL;
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
 import java.time.Duration;
-import java.util.Date;
+
 
 /**
  * @author akrystian
  */
 @Entity
 public class Video{
-    @Id @GeneratedValue
-    private long id;
+    @Id
+    private String id;
     private String title;
     private String description;
+    @NotNull
     private Date publishDate;
     private Duration duration;
-    private URL link;
+    private String thumbnailLink;
 
     public Video(){
     }
 
-    public Video(String title, String description, Date publishDate, Duration duration, URL link){
+    public Video(String id, String title, String description, Date publishDate, Duration duration, String
+            thumbnailLink) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.publishDate = publishDate;
         this.duration = duration;
-        this.link = link;
+        this.thumbnailLink = thumbnailLink;
     }
 
-    public long getId(){
+    public String getId() {
         return id;
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public Date getPublishDate(){
+    public Date getPublishDate() {
         return publishDate;
     }
 
-    public Duration getDuration(){
+    public Duration getDuration() {
         return duration;
     }
 
-    public URL getLink(){
-        return link;
+    public String getThumbnailLink() {
+        return thumbnailLink;
     }
 
     @Override
     public boolean equals(Object o){
         if (this == o) return true;
         if (!(o instanceof Video)) return false;
-
         Video video = (Video) o;
-
-        if (id != video.id) return false;
-        if (title != null ? !title.equals(video.title) : video.title != null) return false;
-        if (description != null ? !description.equals(video.description) : video.description != null) return false;
-        if (publishDate != null ? !publishDate.equals(video.publishDate) : video.publishDate != null) return false;
-        if (duration != null ? !duration.equals(video.duration) : video.duration != null) return false;
-        return !(link != null ? !link.equals(video.link) : video.link != null);
-
+        return Objects.equal(id, video.id) &&
+                Objects.equal(title, video.title) &&
+                Objects.equal(description, video.description) &&
+                Objects.equal(publishDate, video.publishDate) &&
+                Objects.equal(duration, video.duration) &&
+                Objects.equal(thumbnailLink, video.thumbnailLink);
     }
 
     @Override
     public int hashCode(){
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (publishDate != null ? publishDate.hashCode() : 0);
-        result = 31 * result + (duration != null ? duration.hashCode() : 0);
-        result = 31 * result + (link != null ? link.hashCode() : 0);
-        return result;
+        return Objects.hashCode(id, title, description, publishDate, duration, thumbnailLink);
     }
 }
