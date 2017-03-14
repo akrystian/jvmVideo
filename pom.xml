@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>pro.adamski</groupId>
     <artifactId>jvmVideo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -15,8 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <google-api-services-youtube.version>v3-rev180-1.22.0</google-api-services-youtube.version>
     </properties>
-
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -51,14 +48,24 @@
             <version>${google-api-services-youtube.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.0</version>
         </dependency>
         <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <!--test dependency-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

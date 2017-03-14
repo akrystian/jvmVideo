@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pro.adamski.jvmvideo.entity.Video;
-import pro.adamski.jvmvideo.service.VideoRepository;
+import pro.adamski.jvmvideo.repository.VideoRepository;
 import pro.adamski.jvmvideo.service.YouTubeVideoProvider;
 
 import java.sql.Date;
@@ -57,7 +57,7 @@ public class VideoControllerTest{
     @Test
     public void shouldReturnListOfVideosWithPagination() throws Exception{
         //then
-        mvc.perform(get("/").param("size","1").param("page","1").accept(MediaType.TEXT_PLAIN))
+        mvc.perform(get("/").param("size","1").param("start","1").accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
     }
 

@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.service;
+package pro.adamski.jvmvideo.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +8,6 @@ import pro.adamski.jvmvideo.entity.Video;
 /**
  * @author akrystian
  */
-public interface VideoRepository extends JpaRepository<Video,Long>{
+public interface VideoRepository extends JpaRepository<Video, Long> {
     Page<Video> findAllByOrderByPublishDateDesc(Pageable pageable);
 }

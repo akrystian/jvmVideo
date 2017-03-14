@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pro.adamski.jvmvideo.entity.Video;
-import pro.adamski.jvmvideo.service.VideoRepository;
+import pro.adamski.jvmvideo.repository.VideoRepository;
 import pro.adamski.jvmvideo.service.YouTubeVideoProvider;
 
 import java.util.Collection;
