@@ -73,7 +73,5 @@ public class VideoTest {
         assertThat(videoA.getPublishDate(),is(new Date(0L)));
         assertThat(videoA.getDuration(),is(Duration.ofMinutes(552)));
         assertThat(videoA.getThumbnailLink(),is("https://i.ytimg.com/vi/zQll41ha5_g/default.jpg"));
-
     }
-
 }

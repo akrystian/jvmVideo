@@ -15,7 +15,7 @@ import java.util.Collection;
  * @author akrystian
  */
 @SpringBootApplication
-public class Application {
+public class Application{
     private final YouTubeVideoProvider youTubeVideoProvider;
 
     @Autowired
@@ -23,18 +23,18 @@ public class Application {
         this.youTubeVideoProvider = youTubeVideoProvider;
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
     @Bean
-    CommandLineRunner runner(final VideoRepository repository) {
+    CommandLineRunner runner(final VideoRepository repository){
         return args -> {
-            if (repository.findAll().isEmpty()) {
+            if(repository.findAll().isEmpty()){
                 String channelId = "UC6D58UvAH98IaMVZr80-03g";
                 Collection<Video> videos = youTubeVideoProvider.fetchVideosFromChannel(channelId);
                 videos.forEach(repository::save);
             }
         };
+    }
+
+    public static void main(String[] args){
+        SpringApplication.run(Application.class,args);
     }
 }
