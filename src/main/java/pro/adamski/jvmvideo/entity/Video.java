@@ -8,12 +8,13 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.Duration;
 
+import static org.apache.commons.lang3.Validate.notNull;
 
 /**
  * @author akrystian
  */
 @Entity
-public class Video{
+public class Video {
     @Id
     private String id;
     private String title;
@@ -23,15 +24,19 @@ public class Video{
     private Duration duration;
     private String thumbnailLink;
 
-    public Video(){
+    public Video() {
+        //hibernate entity
+        publishDate = new Date(0L);
     }
 
-    public Video(String id, String title, String description, Date publishDate, Duration duration, String
-            thumbnailLink) {
+    @SuppressWarnings("squid:S2637")
+    public Video(String id, String title, String description, Date publishDate, Duration duration,
+                 String thumbnailLink) {
+        this();
+        this.publishDate = notNull(publishDate);
         this.id = id;
         this.title = title;
         this.description = description;
-        this.publishDate = publishDate;
         this.duration = duration;
         this.thumbnailLink = thumbnailLink;
     }
@@ -61,9 +66,14 @@ public class Video{
     }
 
     @Override
-    public boolean equals(Object o){
-        if (this == o) return true;
-        if (!(o instanceof Video)) return false;
+    @SuppressWarnings("squid:S1067")
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Video)) {
+            return false;
+        }
         Video video = (Video) o;
         return Objects.equal(id, video.id) &&
                 Objects.equal(title, video.title) &&
@@ -74,7 +84,7 @@ public class Video{
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hashCode(id, title, description, publishDate, duration, thumbnailLink);
     }
 }
