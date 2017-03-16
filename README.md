@@ -7,7 +7,7 @@
 New videos from Toronto JUG. 
 
 Project aims:
- - Learning Spring Boot
+ - Learning Spring Boot and Cloud
  - Polishing Java knowlage
  - Gaining practice in branching model, quality assurance, continious develoment and delivery.
  - Playground for new technologies :)
@@ -18,4 +18,4 @@ Used technologies:
  - MySql
  - Flyway
 
-Test instance (auto deployed): [http://jvmvideo-akrystiancloud.rhcloud.com/](http://jvmvideo-akrystiancloud.rhcloud.com/)
+Test instance (auto-deployed via [travis CI](https://travis-ci.org/)): [http://jvmvideo-akrystiancloud.rhcloud.com/](http://jvmvideo-akrystiancloud.rhcloud.com/)
