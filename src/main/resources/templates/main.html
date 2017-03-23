@@ -1,35 +1,64 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Latest Videos</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           media="screen"/>
     <link href="../static/theme.css" rel="stylesheet" th:href="@{theme.css}"/>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script  src="/jquery.simplePagination.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<div th:include="fragments/header :: header"/>
-<div class="container">
-    <div class="main">
-        <div th:each="v : ${videos}">
+<div th:include="fragments/header :: header"></div>
 
-            <a th:href="${youtubeLinkPrefix} + ${v.id}">
+<div class="container">
+    <ul class="pagination pagination-sm"></ul>
+    <div class="row" th:each="v : ${videos}">
+        <hr/>
+        <a th:href="${youtubeLinkPrefix} + ${v.id}">
+            <div class="col-sm-2">
                 <img th:src="${v.thumbnailLink}"/>
-                <span th:text="${v.title}"/>
-            </a>
-            <span th:text="${v.publishDate}">Publish Date</span>
-            <span th:text="${v.description}">Description</span>
-            <span th:text="${v.duration}">Duration</span>
-        </div>
-        <ul class="pagination" th:each="page : ${pages}">
-            <li>
-                <a th:href="@{'/'(start=${page})}" th:text="${page} + 1"></a>
-            </li>
-        </ul>
+            </div>
+            <div class="col-sm-10">
+                <h3 class="title" th:text="${v.title}">Title</h3>
+                <p class="text-muted">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    <span th:text="${v.publishDate}"></span>
+                </p>
+                <p th:text="${v.description}">Description</p>
+                <p th:text="${v.duration}">Duration</p>
+            </div>
+        </a>
     </div>
+    <hr/>
+    <ul class="pagination pagination-sm"></ul>
+
+    <!--pagination-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var paginationItems = /*[[${paginationItems}]]*/ '1';
+        var paginationPageSize = /*[[${paginationPageSize}]]*/ '1';
+        var paginationCurrent = /*[[${paginationCurrent}]]*/ '1';
+        /*]]>*/
+
+        $(function() {
+            $(".pagination").pagination({
+                hrefTextPrefix: '?start=',
+                items: paginationItems,
+                itemsOnPage: paginationPageSize,
+                currentPage: paginationCurrent,
+                ellipsePageSet: false,
+                prevText: '&lt;&lt;',
+                nextText: '&gt;&gt;'
+            });
+        });
+    </script>
+
+
 </div>
-<div th:include="fragments/footer :: footer"/>
+<div th:include="fragments/footer :: footer"></div>
 </body>
 </html>
