@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pro.adamski.jvmvideo.repository.VideoRepository;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author akrystian
@@ -35,19 +33,10 @@ public class VideoController {
         int pageSize = getPageSize(request);
         model.addAttribute("videos", videoRepository.findAllByOrderByPublishDateDesc(new PageRequest(page, pageSize)));
         model.addAttribute("youtubeLinkPrefix", YOUTUBE_LINK_PREFIX);
-        List<Long> pages = preparePagination();
-        model.addAttribute("pages", pages);
+        model.addAttribute("paginationItems", videoRepository.count());
+        model.addAttribute("paginationPageSize", DEFAULT_PAGE_SIZE);
+        model.addAttribute("paginationCurrent", page + 1);
         return "main";
-    }
-
-    private List<Long> preparePagination() {
-        long count = videoRepository.count();
-        List<Long> pages = new ArrayList<>();
-        long counter = 0;
-        for (long i = 0; i < count; i = i + DEFAULT_PAGE_SIZE) {
-            pages.add(counter++);
-        }
-        return pages;
     }
 
     private int getPageSize(HttpServletRequest request) {
@@ -58,7 +47,7 @@ public class VideoController {
 
     private int getPage(HttpServletRequest request) {
         return (request.getParameter(P_PAGE_START) != null)
-                ? Integer.parseInt(request.getParameter(P_PAGE_START))
+                ? Integer.parseInt(request.getParameter(P_PAGE_START)) - 1
                 : DEFAULT_PAGE;
     }
 }
