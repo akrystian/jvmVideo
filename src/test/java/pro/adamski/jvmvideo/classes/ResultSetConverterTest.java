@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
  * @author akrystian.
  */
 public class ResultSetConverterTest {
-    private ResultSetConverter instance = new ResultSetConverter();
+    private ResultSetConverter instance = new ResultSetConverter(null);
 
 
     @Test

@@ -4,6 +4,7 @@ import com.google.common.base.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.Duration;
@@ -23,6 +24,8 @@ public class Video {
     private Date publishDate;
     private Duration duration;
     private String thumbnailLink;
+    @ManyToOne
+    private Source source;
 
     public Video() {
         //hibernate entity
@@ -31,7 +34,7 @@ public class Video {
 
     @SuppressWarnings("squid:S2637")
     public Video(String id, String title, String description, Date publishDate, Duration duration,
-                 String thumbnailLink) {
+                 String thumbnailLink, Source source) {
         this();
         this.publishDate = notNull(publishDate);
         this.id = id;
@@ -39,6 +42,7 @@ public class Video {
         this.description = description;
         this.duration = duration;
         this.thumbnailLink = thumbnailLink;
+        this.source = source;
     }
 
     public String getId() {
@@ -65,6 +69,10 @@ public class Video {
         return thumbnailLink;
     }
 
+    public Source getSource() {
+        return source;
+    }
+
     @Override
     @SuppressWarnings("squid:S1067")
     public boolean equals(Object o) {
@@ -80,11 +88,12 @@ public class Video {
                 Objects.equal(description, video.description) &&
                 Objects.equal(publishDate, video.publishDate) &&
                 Objects.equal(duration, video.duration) &&
-                Objects.equal(thumbnailLink, video.thumbnailLink);
+                Objects.equal(thumbnailLink, video.thumbnailLink) &&
+                Objects.equal(source,video.source);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, title, description, publishDate, duration, thumbnailLink);
+        return Objects.hashCode(id, title, description, publishDate, duration, thumbnailLink, source);
     }
 }
