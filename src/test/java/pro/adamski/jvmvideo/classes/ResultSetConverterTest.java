@@ -16,7 +16,7 @@ import static org.junit.Assert.assertThat;
  * @author akrystian.
  */
 public class ResultSetConverterTest {
-    private ResultSetConverter instance = new ResultSetConverter();
+    private ResultSetConverter instance = new ResultSetConverter(null);
 
 
     @Test
@@ -35,7 +35,7 @@ public class ResultSetConverterTest {
         //then
         assertThat(videos.size(), is(1));
         Video actual = videos.get(0);
-        assertThat(actual.getId(), is(videoId));
+        assertThat(actual.getVideoId(), is(videoId));
         assertThat(actual.getTitle(), is(title));
         assertThat(actual.getDescription(), is(description));
         assertThat(actual.getPublishDate(), is(new Date(2L)));

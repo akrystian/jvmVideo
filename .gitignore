@@ -145,7 +145,7 @@ tramp
 .\#*
 
 # Org-mode
-.org-id-locations
+.org-videoId-locations
 *_archive
 
 # flymake-mode
