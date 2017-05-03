@@ -1,42 +1,34 @@
 package pro.adamski.jvmvideo.service;
 
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
-import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
 import pro.adamski.jvmvideo.repository.VideoRepository;
 
 import java.sql.Date;
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
-
 
 /**
  * @author akrystian.
  */
 @RunWith(SpringRunner.class)
-public class VideoHarvesterTest {
-
-    @MockBean
-    private SourceRepository sourceRepository;
-
-    @MockBean
-    private YouTubeVideoProvider youTubeVideoProvider;
-
+public class VideoServiceTest {
     @MockBean
     private VideoRepository videoRepository;
 
-    private VideoHarvester instance;
+    VideoService instance;
 
     private Video videoA = new Video(
             "id1",
@@ -49,24 +41,31 @@ public class VideoHarvesterTest {
 
     @Before
     public void init(){
-        instance = new VideoHarvester(youTubeVideoProvider,sourceRepository,
-                videoRepository);
+        instance = new VideoService(videoRepository);
     }
 
     @Test
-    public void shouldHarvestChannel() {
+    public void shouldGetVideosSize() {
         //given
-        given(sourceRepository.findAll()).willReturn(Collections.singletonList(
-                new YouTubeChannel("name", new DateTime(DateTime.now()),
-                        "identifier")));
+        given(videoRepository.count()).willReturn(1L);
 
-        given(youTubeVideoProvider.fetchVideos(any())).willReturn(Collections.singletonList(videoA));
         //when
-        instance.harvestAllSources();
+        long videosSize = instance.getVideosSize();
 
         //then
-        then(videoRepository).should(times(1)).save(any(Video.class));
+        assertThat(videosSize,is(1L));
     }
 
+    @Test
+    public void shouldGetSinglePage() {
+        //given
+        given(videoRepository.findAllByOrderByPublishDateDesc(any(Pageable.class)))
+                .willReturn(new PageImpl<>(Collections.singletonList(videoA)));
 
+        //when
+        List<Video> videosPage = instance.getVideosPage(1, 1);
+
+        //then
+        assertThat(videosPage.size(),is(1));
+    }
 }

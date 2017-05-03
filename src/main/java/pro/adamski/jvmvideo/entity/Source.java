@@ -19,9 +19,11 @@ public abstract class Source {
     @Id
     @GeneratedValue
     private long id;
+
     private String name;
     @NotNull
     private Timestamp lastHarvested;
+
 
     public Source() {
         //hibernate entity
@@ -31,7 +33,6 @@ public abstract class Source {
     @SuppressWarnings("squid:S2637")
     public Source(String name, DateTime lastHarvested) {
         this.name = name;
-
         this.lastHarvested = new Timestamp(notNull(lastHarvested).getMillis());
     }
 
@@ -62,12 +63,11 @@ public abstract class Source {
             return false;
         }
         Source source = (Source) o;
-        return Objects.equal(id, source.id) &&
-                Objects.equal(name, source.name);
+        return id == source.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, name);
+        return Objects.hashCode(id);
     }
 }

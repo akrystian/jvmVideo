@@ -11,7 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.repository.VideoRepository;
-import pro.adamski.jvmvideo.service.YouTubeVideoProvider;
+import pro.adamski.jvmvideo.service.VideoService;
+import pro.adamski.jvmvideo.service.YoutubeHarvesterService;
 
 import java.sql.Date;
 import java.time.Duration;
@@ -35,7 +36,10 @@ public class VideoControllerTest{
     private VideoRepository videoRepository;
 
     @MockBean
-    private YouTubeVideoProvider youTubeVideoProvider;
+    private YoutubeHarvesterService youtubeHarvesterService;
+
+    @MockBean
+    private VideoService videoService;
 
     @Before
     public void init() {

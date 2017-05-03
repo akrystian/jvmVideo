@@ -22,30 +22,30 @@ import java.util.List;
  * @author akrystian.
  */
 @Service
-public class VideoHarvester {
-    public static final Logger log = LoggerFactory.getLogger(VideoHarvester.class);
-    private final YouTubeVideoProvider youTubeVideoProvider;
+public class HarvesterService {
+    private static final Logger log = LoggerFactory.getLogger(HarvesterService.class);
+    private final YoutubeHarvesterService youtubeHarvesterService;
     private final SourceRepository sourceRepository;
     private final VideoRepository videoRepository;
 
     @Autowired
-    public VideoHarvester(YouTubeVideoProvider youTubeVideoProvider,
-                          SourceRepository sourceRepository,
-                          VideoRepository videoRepository) {
-        this.youTubeVideoProvider = youTubeVideoProvider;
+    public HarvesterService(YoutubeHarvesterService youtubeHarvesterService,
+                            SourceRepository sourceRepository,
+                            VideoRepository videoRepository) {
+        this.youtubeHarvesterService = youtubeHarvesterService;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
     }
 
     @PostConstruct
     public void init() {
-        if (videoRepository.findAll().isEmpty()) {
+        if (sourceRepository.findAll().isEmpty()) {
             List<YouTubeChannel> youTubeChannels = Arrays.asList(
-                    new YouTubeChannel("Toronto JUG", new DateTime(DateTime.now()),
+                    new YouTubeChannel("Toronto JUG", new DateTime(0L),
                             "UC6D58UvAH98IaMVZr80-03g"),
-                    new YouTubeChannel("Warsaw JUG", new DateTime(DateTime.now()),
+                    new YouTubeChannel("Warsaw JUG", new DateTime(0L),
                             "UC2coGyxf5x_CzJ3l4F-N-Sw"));
-            sourceRepository.save(youTubeChannels);
+            youTubeChannels.forEach(sourceRepository::save);
         }
         harvestAllSources();
     }
@@ -53,15 +53,18 @@ public class VideoHarvester {
 
     @Scheduled(cron = "0 0 * * * MON")
     public void harvestAllSources() {
-        sourceRepository.findAll().forEach(this::harvestAllSources);
+        sourceRepository.findAll().forEach(this::harvestSource);
     }
 
     @Transactional
-    private void harvestAllSources(Source source) {
+    private void harvestSource(final Source source) {
         final YouTubeChannel channel = (YouTubeChannel) source;
-        Collection<Video> videos = youTubeVideoProvider.fetchVideos(channel);
+        final long now = System.currentTimeMillis();
+        Collection<Video> videos = youtubeHarvesterService.harvest(channel, now);
         log.info("Harvested {} from {} channel.", videos.size(), channel.getName());
         videos.forEach(videoRepository::save);
+        channel.setLastHarvested(new DateTime(now));
+        sourceRepository.save(channel);
     }
 
 }

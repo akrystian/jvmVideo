@@ -18,7 +18,7 @@
     <ul class="pagination pagination-sm"></ul>
     <div class="row" th:each="v : ${videos}">
         <hr/>
-        <a th:href="${youtubeLinkPrefix} + ${v.id}">
+        <a th:href="${youtubeLinkPrefix} + ${v.videoId}">
             <div class="col-sm-2">
                 <img th:src="${v.thumbnailLink}"/>
             </div>

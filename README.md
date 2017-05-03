@@ -1,7 +1,7 @@
 # jvmVideo
 
 [![Build Status](https://travis-ci.org/akrystian/jvmVideo.svg?branch=master)](https://travis-ci.org/akrystian/jvmVideo)
-[![Quality Gate](https://sonarqube.com/api/badges/gate?key=pro.adamski:jvmVideo)](https://sonarqube.com/dashboard?id=pro.adamski%3AjvmVideo)
+[![Quality Gate](https://sonarqube.com/api/badges/gate?key=pro.adamski:jvmVideo)](https://sonarqube.com/dashboard?videoId=pro.adamski%3AjvmVideo)
 [![codecov](https://codecov.io/gh/akrystian/jvmVideo/branch/master/graph/badge.svg)](https://codecov.io/gh/akrystian/jvmVideo)
 
 New videos from Toronto JUG. 

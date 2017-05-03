@@ -1,9 +1,10 @@
-CREATE TABLE source (
-  dtype          VARCHAR(31) NOT NULL,
-  id             BIGINT(20)  NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  last_harvested DATETIME    NOT NULL,
-  name           VARCHAR(255)         DEFAULT NULL,
-  channel_link   VARCHAR(255)         DEFAULT NULL
+CREATE TABLE `source` (
+  `dtype` varchar(31) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `last_harvested` datetime NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `channel_link` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
 

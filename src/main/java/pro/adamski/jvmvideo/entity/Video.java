@@ -3,6 +3,7 @@ package pro.adamski.jvmvideo.entity;
 import com.google.common.base.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -15,9 +16,12 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @author akrystian
  */
 @Entity
-public class Video {
+public class Video  {
     @Id
-    private String id;
+    @GeneratedValue
+    private long id;
+
+    private String videoId;
     private String title;
     private String description;
     @NotNull
@@ -27,17 +31,18 @@ public class Video {
     @ManyToOne
     private Source source;
 
+
     public Video() {
         //hibernate entity
         publishDate = new Date(0L);
     }
 
     @SuppressWarnings("squid:S2637")
-    public Video(String id, String title, String description, Date publishDate, Duration duration,
+    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
                  String thumbnailLink, Source source) {
         this();
         this.publishDate = notNull(publishDate);
-        this.id = id;
+        this.videoId = videoId;
         this.title = title;
         this.description = description;
         this.duration = duration;
@@ -45,8 +50,12 @@ public class Video {
         this.source = source;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
+    }
+
+    public String getVideoId() {
+        return videoId;
     }
 
     public String getTitle() {
@@ -74,7 +83,6 @@ public class Video {
     }
 
     @Override
-    @SuppressWarnings("squid:S1067")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -83,17 +91,11 @@ public class Video {
             return false;
         }
         Video video = (Video) o;
-        return Objects.equal(id, video.id) &&
-                Objects.equal(title, video.title) &&
-                Objects.equal(description, video.description) &&
-                Objects.equal(publishDate, video.publishDate) &&
-                Objects.equal(duration, video.duration) &&
-                Objects.equal(thumbnailLink, video.thumbnailLink) &&
-                Objects.equal(source,video.source);
+        return id == video.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, title, description, publishDate, duration, thumbnailLink, source);
+        return Objects.hashCode(id);
     }
 }
