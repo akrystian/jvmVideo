@@ -10,14 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pro.adamski.jvmvideo.classes.ResultSetConverter;
 import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
-import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -61,10 +59,5 @@ public class YoutubeHarvesterService {
         } catch (IOException e) {
             throw new HarvestingException(e);
         }
-    }
-
-    @SuppressWarnings("unused method parameter")
-    public Collection<Video> harvest(Source channel, long harvestingTime) {
-        return Collections.emptyList();
     }
 }

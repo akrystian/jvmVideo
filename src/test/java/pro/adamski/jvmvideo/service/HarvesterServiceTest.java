@@ -52,6 +52,7 @@ public class HarvesterServiceTest {
     public void init(){
         instance = new HarvesterService(youtubeHarvesterService,sourceRepository,
                 videoRepository);
+        instance.init();
     }
 
     @Test

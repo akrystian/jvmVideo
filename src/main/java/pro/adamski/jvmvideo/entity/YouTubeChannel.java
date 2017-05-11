@@ -8,6 +8,7 @@ import javax.persistence.Entity;
  * @author akrystian.
  */
 @Entity
+@SuppressWarnings("squid:S2160")
 public class YouTubeChannel extends Source {
     private String channelLink;
 
