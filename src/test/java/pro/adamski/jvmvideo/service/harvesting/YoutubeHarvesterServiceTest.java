@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.service;
+package pro.adamski.jvmvideo.service.harvesting;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -13,12 +13,12 @@ import java.util.Collection;
 /**
  * @author akrystian.
  */
-public class YoutubeHarvesterServiceServiceTest {
+public class YoutubeHarvesterServiceTest {
 
     @MockBean
     private SourceRepository sourceRepository;
 
-    private YoutubeHarvesterService instance = new YoutubeHarvesterService("", "app");
+    private YoutubeHarvester instance = new YoutubeHarvester("", "app");
 
 
 

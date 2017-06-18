@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.service;
+package pro.adamski.jvmvideo.service.harvesting;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class HarvesterServiceTest {
     private SourceRepository sourceRepository;
 
     @MockBean
-    private YoutubeHarvesterService youtubeHarvesterService;
+    private YoutubeHarvester youtubeHarvester;
 
     @MockBean
     private VideoRepository videoRepository;
@@ -50,7 +50,7 @@ public class HarvesterServiceTest {
 
     @Before
     public void init(){
-        instance = new HarvesterService(youtubeHarvesterService,sourceRepository,
+        instance = new HarvesterService(youtubeHarvester,sourceRepository,
                 videoRepository);
         instance.init();
     }
@@ -62,7 +62,7 @@ public class HarvesterServiceTest {
                 new YouTubeChannel("name", new DateTime(DateTime.now()),
                         "identifier")));
 
-        given(youtubeHarvesterService.harvest(any(),anyLong())).willReturn(Collections.singletonList(videoA));
+        given(youtubeHarvester.harvest(any(),anyLong())).willReturn(Collections.singletonList(videoA));
         //when
         instance.harvestAllSources();
 

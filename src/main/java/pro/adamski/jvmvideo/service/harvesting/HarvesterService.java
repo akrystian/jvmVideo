@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.service;
+package pro.adamski.jvmvideo.service.harvesting;
 
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -24,15 +24,15 @@ import java.util.List;
 @Service
 public class HarvesterService {
     private static final Logger log = LoggerFactory.getLogger(HarvesterService.class);
-    private final YoutubeHarvesterService youtubeHarvesterService;
+    private final YoutubeHarvester youtubeHarvester;
     private final SourceRepository sourceRepository;
     private final VideoRepository videoRepository;
 
     @Autowired
-    public HarvesterService(YoutubeHarvesterService youtubeHarvesterService,
+    public HarvesterService(YoutubeHarvester youtubeHarvester,
                             SourceRepository sourceRepository,
                             VideoRepository videoRepository) {
-        this.youtubeHarvesterService = youtubeHarvesterService;
+        this.youtubeHarvester = youtubeHarvester;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
     }
@@ -60,7 +60,7 @@ public class HarvesterService {
     private void harvestSource(final Source source) {
         final YouTubeChannel channel = (YouTubeChannel) source;
         final long now = System.currentTimeMillis();
-        Collection<Video> videos = youtubeHarvesterService.harvest(channel, now);
+        Collection<Video> videos = youtubeHarvester.harvest(channel, now);
         log.info("Harvested {} from {} channel.", videos.size(), channel.getName());
         videos.forEach(videoRepository::save);
         channel.setLastHarvested(new DateTime(now));
