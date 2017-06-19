@@ -30,6 +30,13 @@ public class VideoTest {
             new Date(0L),
             Duration.ofMinutes(552),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel);
+    private Video videoC = new Video(
+            "id1",
+            "title2",
+            "description1",
+            new Date(0L),
+            Duration.ofMinutes(552),
+            "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel);
 
     @Test
     public void shouldReturnFields() throws Exception {
@@ -41,5 +48,11 @@ public class VideoTest {
         assertThat(videoA.getDuration(), is(Duration.ofMinutes(552)));
         assertThat(videoA.getThumbnailLink(), is("https://i.ytimg.com/vi/zQll41ha5_g/default.jpg"));
         assertThat(videoA.getSource(), is(channel));
+    }
+
+    @Test
+    public void shouldSuccessfullyCompareTwoInstances() {
+        //then
+        assertThat(videoB, is(videoC));
     }
 }

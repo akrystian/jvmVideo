@@ -35,23 +35,17 @@ class IdentifierHarvester {
         search.setPublishedBefore(new DateTime(harvestingTime));
         search.setPublishedAfter(new DateTime(channel.getLastHarvested().toDate()));
         List<SearchResult> searchResultList = search.execute().getItems();
-        return searchResultList
-                .stream()
-                .filter(new VideoFilter())
-                .map(SearchResult::getId)
-                .map(ResourceId::getVideoId)
-                .collect(toList());
+        return searchResultList.stream().filter(new VideoFilter()).map(SearchResult::getId)
+                .map(ResourceId::getVideoId).collect(toList());
     }
 }
-
 
 class VideoFilter implements Predicate<SearchResult> {
     private static final String VIDEO_KIND = "youtube#video";
 
     @Override
     public boolean test(SearchResult searchResult) {
-        return searchResult != null
-                && searchResult.getId().getKind() != null
+        return searchResult != null && searchResult.getId().getKind() != null
                 && searchResult.getId().getKind().equals(VIDEO_KIND);
     }
 }

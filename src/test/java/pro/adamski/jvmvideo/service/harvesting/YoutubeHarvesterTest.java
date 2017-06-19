@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 /**
  * @author akrystian.
  */
-public class YoutubeHarvesterServiceTest {
+public class YoutubeHarvesterTest {
 
     @MockBean
     private SourceRepository sourceRepository;
@@ -23,13 +23,27 @@ public class YoutubeHarvesterServiceTest {
 
 
     @Test
-    public void shouldThrowExceptionOnMissingApiKey() throws Exception {
+    public void shouldThrowMissingApiKeyExceptionOnHarvestIdentifiers() throws Exception {
         //given
         instance.setUp();
         YouTubeChannel channel = new YouTubeChannel("videoChannel",new DateTime(0L),"videoId");
 
         try {
             instance.harvestIdentifiers(channel, System.nanoTime());
+            fail("Exception expected!");
+        } catch (GoogleJsonResponseException e) {
+            assertThat(e.getDetails().getErrors().get(0).getDomain(), is("usageLimits"));
+        }
+    }
+
+    @Test
+    public void shouldThrowMissingApiKeyExceptionOnHarvestVideo() throws Exception {
+        //given
+        instance.setUp();
+        YouTubeChannel channel = new YouTubeChannel("videoChannel", new DateTime(0L), "videoId");
+
+        try {
+            instance.harvestVideo(channel, "vN08or_jY6c");
             fail("Exception expected!");
         } catch (GoogleJsonResponseException e) {
             assertThat(e.getDetails().getErrors().get(0).getDomain(), is("usageLimits"));
