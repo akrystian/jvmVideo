@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.service;
+package pro.adamski.jvmvideo.service.harvesting;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -11,14 +11,14 @@ import pro.adamski.jvmvideo.entity.YouTubeChannel;
 import pro.adamski.jvmvideo.repository.SourceRepository;
 import pro.adamski.jvmvideo.repository.VideoRepository;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.Duration;
 import java.util.Collections;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.times;
 
 
@@ -32,7 +32,7 @@ public class HarvesterServiceTest {
     private SourceRepository sourceRepository;
 
     @MockBean
-    private YoutubeHarvesterService youtubeHarvesterService;
+    private YoutubeHarvester youtubeHarvester;
 
     @MockBean
     private VideoRepository videoRepository;
@@ -50,19 +50,21 @@ public class HarvesterServiceTest {
 
     @Before
     public void init(){
-        instance = new HarvesterService(youtubeHarvesterService,sourceRepository,
+        instance = new HarvesterService(youtubeHarvester,sourceRepository,
                 videoRepository);
         instance.init();
     }
 
     @Test
-    public void shouldHarvestChannel() {
+    public void shouldHarvestChannel() throws IOException {
         //given
         given(sourceRepository.findAll()).willReturn(Collections.singletonList(
                 new YouTubeChannel("name", new DateTime(DateTime.now()),
                         "identifier")));
 
-        given(youtubeHarvesterService.harvest(any(),anyLong())).willReturn(Collections.singletonList(videoA));
+        given(youtubeHarvester.harvestVideo(any(), anyString())).willReturn(videoA);
+        given(youtubeHarvester.harvestIdentifiers(any(YouTubeChannel.class), anyLong())).willReturn
+                (Collections.singletonList("identifier"));
         //when
         instance.harvestAllSources();
 

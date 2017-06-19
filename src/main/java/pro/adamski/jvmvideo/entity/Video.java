@@ -1,11 +1,9 @@
 package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
+import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.Duration;
@@ -26,6 +24,7 @@ public class Video  {
     private String description;
     @NotNull
     private Date publishDate;
+    @Convert(converter = DurationConverter.class)
     private Duration duration;
     private String thumbnailLink;
     @ManyToOne

@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.service;
+package pro.adamski.jvmvideo.service.videos;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class VideoServiceTest {
     @MockBean
     private VideoRepository videoRepository;
 
-    VideoService instance;
+    private VideoService instance;
 
     private Video videoA = new Video(
             "id1",
