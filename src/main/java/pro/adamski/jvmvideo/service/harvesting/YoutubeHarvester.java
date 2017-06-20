@@ -37,8 +37,8 @@ public class YoutubeHarvester {
     public void setUp() {
         final YouTube youTube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), null
         ).setApplicationName(applicationName).build();
-        this.videoHarvester = new VideoHarvester(youTube, apiKey);
-        this.identifierHarvester = new IdentifierHarvester(youTube, apiKey, MAX_RESULTS);
+        this.videoHarvester = new VideoHarvester(new VideosFetcher(youTube, apiKey));
+        this.identifierHarvester = new IdentifierHarvester(new IdentifiersFetcher(youTube, apiKey));
     }
 
 

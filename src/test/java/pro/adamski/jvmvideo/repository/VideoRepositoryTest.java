@@ -27,7 +27,6 @@ public class VideoRepositoryTest {
     VideoRepository repository;
 
 
-
     @Test
     public void shouldFindSingle() {
         //given
@@ -46,7 +45,7 @@ public class VideoRepositoryTest {
 
 
         //then
-        assertThat(all.size(),is(1));
+        assertThat(all.size(), is(1));
     }
 
 }

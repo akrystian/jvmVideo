@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Latest Videos</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           media="screen"/>
     <link href="../static/theme.css" rel="stylesheet" th:href="@{theme.css}"/>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script  src="/jquery.simplePagination.js"></script>
+    <script src="/jquery.simplePagination.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
@@ -25,15 +25,15 @@
             <div class="col-sm-10">
                 <h3 class="title" th:text="${v.title}">Title</h3>
                 <ul class="list-inline">
-                <li class="text-muted">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                    <span th:text="${v.publishDate}"></span>
-                </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <span th:text="${v.publishDate}"></span>
+                    </li>
 
-                <li class="text-muted">
-                    <span class="glyphicon glyphicon-time"></span>
-                    <span th:text="${T(pro.adamski.jvmvideo.classes.ViewHelper).convertDuration(v.duration)}"></span>
-                </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-time"></span>
+                        <span th:text="${T(pro.adamski.jvmvideo.classes.ViewHelper).convertDuration(v.duration)}"></span>
+                    </li>
                 </ul>
                 <p th:text="${#strings.abbreviate(v.description,200)}">Description</p>
             </div>
@@ -50,7 +50,7 @@
         var paginationCurrent = /*[[${paginationCurrent}]]*/ '1';
         /*]]>*/
 
-        $(function() {
+        $(function () {
             $(".pagination").pagination({
                 hrefTextPrefix: '?start=',
                 items: paginationItems,

@@ -26,7 +26,7 @@ public class YoutubeHarvesterTest {
     public void shouldThrowMissingApiKeyExceptionOnHarvestIdentifiers() throws Exception {
         //given
         instance.setUp();
-        YouTubeChannel channel = new YouTubeChannel("videoChannel",new DateTime(0L),"videoId");
+        YouTubeChannel channel = new YouTubeChannel("videoChannel", new DateTime(0L), "videoId");
 
         try {
             instance.harvestIdentifiers(channel, System.nanoTime());

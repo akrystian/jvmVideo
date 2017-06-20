@@ -37,7 +37,7 @@ public class SourceRepositoryTest {
 
 
         //then
-        assertThat(all.size(),is(1));
+        assertThat(all.size(), is(1));
     }
 
 }
