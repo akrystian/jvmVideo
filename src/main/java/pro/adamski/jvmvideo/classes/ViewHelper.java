@@ -12,7 +12,7 @@ public class ViewHelper {
         throw new UnsupportedOperationException("Pure static class!");
     }
 
-    public static String convertDuration(Duration input){
+    public static String convertDuration(Duration input) {
         return DurationFormatUtils.formatDuration(input.toMillis(), "H:mm:ss", true);
     }
 }

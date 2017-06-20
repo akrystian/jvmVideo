@@ -24,7 +24,7 @@ public class ViewHelperTest {
         final String result = convertDuration(duration);
 
         //then
-        assertThat(result,is("15:25:55"));
+        assertThat(result, is("15:25:55"));
     }
 
     @Test(expected = InvocationTargetException.class)

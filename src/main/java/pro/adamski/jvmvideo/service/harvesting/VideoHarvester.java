@@ -1,7 +1,5 @@
 package pro.adamski.jvmvideo.service.harvesting;
 
-import com.google.api.services.youtube.YouTube;
-import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
@@ -15,26 +13,14 @@ import java.util.List;
  * @author akrystian.
  */
 class VideoHarvester {
-    private static final Long MAX_RESULTS = 1L;
-    private static final String REQUESTED_PART = "id,snippet,statistics,contentDetails";
-    private final YouTube youTube;
-    private final String apiKey;
+    private final VideosFetcher videosFetcher;
 
-    VideoHarvester(YouTube youTube, String apiKey) {
-        this.youTube = youTube;
-        this.apiKey = apiKey;
-
+    VideoHarvester(VideosFetcher videosFetcher) {
+        this.videosFetcher = videosFetcher;
     }
 
     Video harvest(YouTubeChannel channel, String videoId) throws IOException {
-        YouTube.Videos.List listVideosRequest = youTube.videos().list(REQUESTED_PART);
-        listVideosRequest.setId(videoId);
-        listVideosRequest.setMaxResults(MAX_RESULTS);
-        listVideosRequest.setKey(apiKey);
-        List<com.google.api.services.youtube.model.Video> videos = listVideosRequest.execute().getItems();
-        if (videos.size() != 1) {
-            throw new HarvestingException("Unsupported number of records! Number : " + videos.size() + "!");
-        }
+        List<com.google.api.services.youtube.model.Video> videos = videosFetcher.fetch(videoId);
         return new VideoMapper(channel).map(videos.get(0));
     }
 }

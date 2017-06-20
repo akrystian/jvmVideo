@@ -14,7 +14,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @author akrystian
  */
 @Entity
-public class Video  {
+public class Video {
     @Id
     @GeneratedValue
     private long id;

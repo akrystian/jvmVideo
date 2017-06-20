@@ -40,7 +40,7 @@ public class VideoServiceTest {
             null);
 
     @Before
-    public void init(){
+    public void init() {
         instance = new VideoService(videoRepository);
     }
 
@@ -53,7 +53,7 @@ public class VideoServiceTest {
         long videosSize = instance.getVideosSize();
 
         //then
-        assertThat(videosSize,is(1L));
+        assertThat(videosSize, is(1L));
     }
 
     @Test
@@ -66,6 +66,6 @@ public class VideoServiceTest {
         List<Video> videosPage = instance.getVideosPage(1, 1);
 
         //then
-        assertThat(videosPage.size(),is(1));
+        assertThat(videosPage.size(), is(1));
     }
 }
