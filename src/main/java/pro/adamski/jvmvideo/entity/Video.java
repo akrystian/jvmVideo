@@ -30,6 +30,9 @@ public class Video  {
     @ManyToOne
     private Source source;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    private VideoStatistic statistic;
+
 
     public Video() {
         //hibernate entity
@@ -47,6 +50,13 @@ public class Video  {
         this.duration = duration;
         this.thumbnailLink = thumbnailLink;
         this.source = source;
+    }
+
+    @SuppressWarnings({"squid:S00107", "squid:S2637"})
+    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
+                 String thumbnailLink, Source source, VideoStatistic statistic) {
+        this(videoId, title, description, publishDate, duration, thumbnailLink, source);
+        this.statistic = statistic;
     }
 
     public long getId() {
@@ -96,5 +106,9 @@ public class Video  {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public VideoStatistic getStatistic() {
+        return statistic;
     }
 }

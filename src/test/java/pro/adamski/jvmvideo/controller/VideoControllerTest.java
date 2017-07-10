@@ -46,10 +46,10 @@ public class VideoControllerTest{
         given(videoRepository.findAll()).willReturn(Arrays.asList(
                 new Video("id1","title", "description", new Date(0L),
                         Duration.ofMinutes(55), "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-                        null),
+                        null, null),
                 new Video("id1","title2", "description2", new Date(0L),
                         Duration.ofMinutes(552), "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-                        null))
+                        null, null))
         );
     }
 

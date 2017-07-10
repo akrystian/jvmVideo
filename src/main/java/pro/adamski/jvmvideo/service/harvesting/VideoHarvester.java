@@ -1,9 +1,11 @@
 package pro.adamski.jvmvideo.service.harvesting;
 
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.VideoStatistics;
 import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
+import pro.adamski.jvmvideo.entity.VideoStatistic;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 
 import java.io.IOException;
@@ -47,12 +49,17 @@ class VideoMapper {
     }
 
     Video map(final com.google.api.services.youtube.model.Video input) {
+        final VideoStatistics statistics = input.getStatistics();
+        VideoStatistic statistic = new VideoStatistic(
+                statistics.getViewCount().longValue(),
+                statistics.getLikeCount().longValue(),
+                statistics.getDislikeCount().longValue());
         return new Video(input.getId(),
                 input.getSnippet().getTitle(),
                 input.getSnippet().getDescription(),
                 new Date(input.getSnippet().getPublishedAt().getValue()),
                 Duration.parse(input.getContentDetails().getDuration()),
                 input.getSnippet().getThumbnails().getDefault().getUrl(),
-                source);
+                source, statistic);
     }
 }

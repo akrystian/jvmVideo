@@ -1,17 +1,13 @@
 package pro.adamski.jvmvideo.service.harvesting;
 
 import com.google.api.client.util.DateTime;
-import com.google.api.services.youtube.model.Thumbnail;
-import com.google.api.services.youtube.model.ThumbnailDetails;
-import com.google.api.services.youtube.model.VideoContentDetails;
-import com.google.api.services.youtube.model.VideoSnippet;
+import com.google.api.services.youtube.model.*;
 import org.joda.time.Duration;
 import org.junit.Test;
 import pro.adamski.jvmvideo.entity.Video;
 
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.Date;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -31,9 +27,11 @@ public class VideoMapperTest {
         String description = "someDescription";
         DateTime publishedAt = new DateTime(2L);
         String url = "someUrl";
-        com.google.api.services.youtube.model.Video result = prepareSearchResult(videoId, title, description, publishedAt, url);
-        List<com.google.api.services.youtube.model.Video> results = new ArrayList<>();
-        results.add(result);
+        final VideoStatistics videoStatistics = prepareVideoStatistics(1L, 2L, 3L);
+        final VideoSnippet videoSnippet = prepareVideoSnippet(title, description, publishedAt, url);
+        com.google.api.services.youtube.model.Video result = prepareSearchResult(videoId, url, videoStatistics,
+                videoSnippet);
+
         //when
         Video actual = instance.map(result);
         //then
@@ -42,22 +40,17 @@ public class VideoMapperTest {
         assertThat(actual.getDescription(), is(description));
         assertThat(actual.getPublishDate(), is(new Date(2L)));
         assertThat(actual.getThumbnailLink(), is(url));
+        assertThat(actual.getStatistic().getLiked(), is(1L));
     }
 
-    private com.google.api.services.youtube.model.Video prepareSearchResult(String videoId, String title, String description, DateTime publishedAt, String url) {
+    private com.google.api.services.youtube.model.Video prepareSearchResult(String videoId, String url, VideoStatistics videoStatistics, VideoSnippet snippet) {
         com.google.api.services.youtube.model.Video result = new com.google.api.services.youtube.model.Video();
 
 
         result.setId(videoId);
 
-        VideoSnippet snippet = new VideoSnippet();
-        Thumbnail thumbnail = new Thumbnail();
-        thumbnail.setUrl(url);
 
-        snippet.setTitle(title);
-        snippet.setDescription(description);
-        snippet.setPublishedAt(publishedAt);
-        snippet.setThumbnails(new ThumbnailDetails().setDefault(thumbnail));
+
 
         VideoContentDetails contentDetails = new VideoContentDetails();
         contentDetails.setDuration(Duration.ZERO.toString());
@@ -65,7 +58,31 @@ public class VideoMapperTest {
 
         result.setContentDetails(contentDetails);
         result.setSnippet(snippet);
+
+        result.setStatistics(videoStatistics);
+
         return result;
+    }
+
+    private VideoSnippet prepareVideoSnippet(String title, String description, DateTime publishedAt,
+                                             String url) {
+        Thumbnail thumbnail = new Thumbnail();
+        thumbnail.setUrl(url);
+        VideoSnippet snippet = new VideoSnippet();
+        snippet.setTitle(title);
+        snippet.setDescription(description);
+        snippet.setPublishedAt(publishedAt);
+        snippet.setThumbnails(new ThumbnailDetails().setDefault(thumbnail));
+        return snippet;
+    }
+
+    private VideoStatistics prepareVideoStatistics(Long likeCount, Long dislikeCount, Long
+            viewCount) {
+        VideoStatistics videoStatistics = new VideoStatistics();
+        videoStatistics.setLikeCount(BigInteger.valueOf(likeCount));
+        videoStatistics.setDislikeCount(BigInteger.valueOf(dislikeCount));
+        videoStatistics.setViewCount(BigInteger.valueOf(viewCount));
+        return videoStatistics;
     }
 
 

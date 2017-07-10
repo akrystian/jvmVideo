@@ -38,7 +38,7 @@ public class VideoRepositoryTest {
                 new Date(0L),
                 Duration.ofMinutes(552),
                 "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-                null);
+                null, null);
         repository.save(videoA);
 
         //when
