@@ -16,6 +16,17 @@
 
 <div class="container">
     <ul class="pagination pagination-sm"></ul>
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSort"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            date
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownSort">
+            <li><a href="#">date</a></li>
+            <li><a href="#">views</a></li>
+        </ul>
+    </div>
     <div class="row" th:each="v : ${videos}">
         <hr/>
         <a th:href="${youtubeLinkPrefix} + ${v.videoId}">
@@ -34,6 +45,18 @@
                     <span class="glyphicon glyphicon-time"></span>
                     <span th:text="${T(pro.adamski.jvmvideo.classes.ViewHelper).convertDuration(v.duration)}"></span>
                 </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                        <span th:text="${v.statistic.views}"></span>
+                    </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span th:text="${v.statistic.liked}"></span>
+                    </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <span th:text="${v.statistic.disliked}"></span>
+                    </li>
                 </ul>
                 <p th:text="${#strings.abbreviate(v.description,200)}">Description</p>
             </div>
