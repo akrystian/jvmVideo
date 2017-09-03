@@ -11,18 +11,24 @@ import static pro.adamski.jvmvideo.classes.SortFactory.createSort;
  */
 public enum SortOrder {
 
-    DATE_DESC(createSort(DESC, "publishDate")),
-    VIEWS_DESC(createSort(DESC, "statistic_views"));
+    DATE_DESC(createSort(DESC, "publishDate"), "date"),
+    VIEWS_DESC(createSort(DESC, "statistic_views"), "views");
 
     private Sort sort;
+    private String description;
 
     @SuppressWarnings("squid:UnusedPrivateMethod")
-    SortOrder(Sort sort) {
+    SortOrder(Sort sort, String description) {
         this.sort = sort;
+        this.description = description;
     }
 
     public Sort applySort() {
         return sort;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
 

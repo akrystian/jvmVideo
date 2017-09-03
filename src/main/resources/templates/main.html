@@ -16,15 +16,14 @@
 
 <div class="container">
     <ul class="pagination pagination-sm"></ul>
-    <div class="dropdown">
+    <div class="dropdown">Sort by
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSort"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            date
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" th:text="${currentOrder}">
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownSort">
-            <li><a href="#">date</a></li>
-            <li><a href="#">views</a></li>
+            <li><a th:href="@{'/'(sort='views_desc')}">views</a></li>
+            <li><a th:href="@{'/'}">date</a></li>
         </ul>
     </div>
     <div class="row" th:each="v : ${videos}">
@@ -71,11 +70,12 @@
         var paginationItems = /*[[${paginationItems}]]*/ '1';
         var paginationPageSize = /*[[${paginationPageSize}]]*/ '1';
         var paginationCurrent = /*[[${paginationCurrent}]]*/ '1';
+        var paginationHrefPrefix = /*[[${paginationHrefPrefix}]]*/ '';
         /*]]>*/
 
         $(function() {
             $(".pagination").pagination({
-                hrefTextPrefix: '?start=',
+                hrefTextPrefix: paginationHrefPrefix,
                 items: paginationItems,
                 itemsOnPage: paginationPageSize,
                 currentPage: paginationCurrent,

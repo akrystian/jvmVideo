@@ -42,7 +42,9 @@ public class VideoController {
         model.addAttribute("paginationItems", videoService.getVideosSize());
         model.addAttribute("paginationPageSize", DEFAULT_PAGE_SIZE);
         model.addAttribute("paginationCurrent", page + 1);
+        model.addAttribute("paginationHrefPrefix", createOrderString(sortOrder, "start="));
         model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("currentOrder", sortOrder.getDescription());
         return "main";
     }
 
@@ -62,5 +64,13 @@ public class VideoController {
         return (request.getParameter(P_SORT_ORDER) != null)
                 ? valueOf(request.getParameter(P_SORT_ORDER).toUpperCase())
                 : DEFAULT_SORT_ORDER;
+    }
+
+    private String createOrderString(SortOrder sortOrder, String input) {
+        if (DEFAULT_SORT_ORDER.equals(sortOrder)) {
+            return "?" + input;
+        } else {
+            return "?" + P_SORT_ORDER + "=" + sortOrder.toString().toLowerCase() + "&" + input;
+        }
     }
 }
