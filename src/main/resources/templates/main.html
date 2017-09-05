@@ -18,11 +18,13 @@
     <ul class="pagination pagination-sm"></ul>
     <div class="dropdown">Sort by
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSort"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" th:text="${currentOrder}">
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                th:text="${sortOrder.getDescription()}">
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownSort">
             <li><a th:href="@{'/'(sort='views_desc')}">views</a></li>
+            <li><a th:href="@{'/'(sort='likes_desc')}">likes</a></li>
             <li><a th:href="@{'/'}">date</a></li>
         </ul>
     </div>
@@ -67,10 +69,10 @@
     <!--pagination-->
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var paginationItems = /*[[${paginationItems}]]*/ '1';
-        var paginationPageSize = /*[[${paginationPageSize}]]*/ '1';
-        var paginationCurrent = /*[[${paginationCurrent}]]*/ '1';
-        var paginationHrefPrefix = /*[[${paginationHrefPrefix}]]*/ '';
+        var paginationItems = /*[[${pagination.getAllItems()}]]*/ '1';
+        var paginationPageSize = /*[[${pagination.getPageSize()}]]*/ '1';
+        var paginationCurrent = /*[[${pagination.getCurrentPage()}]]*/ '1';
+        var paginationHrefPrefix = /*[[${pagination.getHrefPrefix()}]]*/ '';
         /*]]>*/
 
         $(function() {

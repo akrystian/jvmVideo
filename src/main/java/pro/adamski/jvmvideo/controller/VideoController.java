@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pro.adamski.jvmvideo.classes.Pagination;
 import pro.adamski.jvmvideo.classes.SortOrder;
 import pro.adamski.jvmvideo.service.videos.VideoService;
 
@@ -37,14 +38,12 @@ public class VideoController {
         final int page = getPage(request);
         final int pageSize = getPageSize(request);
         final SortOrder sortOrder = getSortOrder(request);
+        final Pagination pagination = new Pagination(videoService.getVideosSize(), DEFAULT_PAGE_SIZE,
+                page + 1, createOrderString(sortOrder, "start="));
         model.addAttribute("videos", videoService.getVideosPage(page, pageSize, sortOrder));
         model.addAttribute("youtubeLinkPrefix", YOUTUBE_LINK_PREFIX);
-        model.addAttribute("paginationItems", videoService.getVideosSize());
-        model.addAttribute("paginationPageSize", DEFAULT_PAGE_SIZE);
-        model.addAttribute("paginationCurrent", page + 1);
-        model.addAttribute("paginationHrefPrefix", createOrderString(sortOrder, "start="));
+        model.addAttribute("pagination", pagination);
         model.addAttribute("sortOrder", sortOrder);
-        model.addAttribute("currentOrder", sortOrder.getDescription());
         return "main";
     }
 
@@ -74,3 +73,5 @@ public class VideoController {
         }
     }
 }
+
+

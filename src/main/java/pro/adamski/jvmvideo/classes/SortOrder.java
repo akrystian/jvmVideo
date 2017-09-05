@@ -12,7 +12,8 @@ import static pro.adamski.jvmvideo.classes.SortFactory.createSort;
 public enum SortOrder {
 
     DATE_DESC(createSort(DESC, "publishDate"), "date"),
-    VIEWS_DESC(createSort(DESC, "statistic_views"), "views");
+    VIEWS_DESC(createSort(DESC, "statistic_views"), "views"),
+    LIKES_DESC(createSort(DESC, "statistic_liked"), "likes");
 
     private Sort sort;
     private String description;
