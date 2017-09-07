@@ -8,7 +8,7 @@ script:
 
 deploy:
   provider: openshift
-   edge:
+  edge:
     branch: openshift-deps
   # Configure these values on your TravisCI 'Repository Settings' page:
   # http://docs.travis-ci.com/user/environment-variables/#Using-Settings
