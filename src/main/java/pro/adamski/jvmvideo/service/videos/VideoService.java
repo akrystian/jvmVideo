@@ -3,6 +3,7 @@ package pro.adamski.jvmvideo.service.videos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import pro.adamski.jvmvideo.classes.SortOrder;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.repository.VideoRepository;
 
@@ -21,8 +22,12 @@ public class VideoService {
         this.videoRepository = videoRepository;
     }
 
-    public List<Video> getVideosPage(final int page, final int pageSize) {
-        return videoRepository.findAllByOrderByPublishDateDesc(new PageRequest(page, pageSize)).getContent();
+    public List<Video> getVideosPage(final int page, final int pageSize, final SortOrder sortOrder) {
+        return videoRepository.findAll(
+                new PageRequest(page, pageSize,
+                        sortOrder.applySort()
+                ))
+                .getContent();
     }
 
     public long getVideosSize() {

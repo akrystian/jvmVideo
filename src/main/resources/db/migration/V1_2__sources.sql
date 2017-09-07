@@ -7,7 +7,6 @@ CREATE TABLE `source` (
   PRIMARY KEY (`id`)
 );
 
-
 ALTER TABLE video
   ADD source_id bigint(20) DEFAULT NULL;
 ALTER TABLE video

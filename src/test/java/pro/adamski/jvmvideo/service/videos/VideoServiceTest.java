@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.repository.VideoRepository;
@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static pro.adamski.jvmvideo.classes.SortOrder.DATE_DESC;
 
 /**
  * @author akrystian.
@@ -37,7 +38,7 @@ public class VideoServiceTest {
             new Date(0L),
             Duration.ofMinutes(552),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-            null);
+            null, null);
 
     @Before
     public void init() {
@@ -59,11 +60,11 @@ public class VideoServiceTest {
     @Test
     public void shouldGetSinglePage() {
         //given
-        given(videoRepository.findAllByOrderByPublishDateDesc(any(Pageable.class)))
+        given(videoRepository.findAll(any(PageRequest.class)))
                 .willReturn(new PageImpl<>(Collections.singletonList(videoA)));
 
         //when
-        List<Video> videosPage = instance.getVideosPage(1, 1);
+        List<Video> videosPage = instance.getVideosPage(1, 1, DATE_DESC);
 
         //then
         assertThat(videosPage.size(), is(1));
