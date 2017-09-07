@@ -11,16 +11,18 @@ import static pro.adamski.jvmvideo.classes.SortFactory.createSort;
  */
 public enum SortOrder {
 
-    DATE_DESC(createSort(DESC, "publishDate"), "date"),
-    VIEWS_DESC(createSort(DESC, "statistic_views"), "views"),
-    LIKES_DESC(createSort(DESC, "statistic_liked"), "likes");
 
+    DATE_DESC(DESC, "publishDate", "date"),
+    VIEWS_DESC(DESC, "statistic_views", "views"),
+    LIKES_DESC(DESC, "statistic_liked", "likes");
+
+    public static final SortOrder DEFAULT_SORT_ORDER = DATE_DESC;
     private Sort sort;
     private String description;
 
     @SuppressWarnings("squid:UnusedPrivateMethod")
-    SortOrder(Sort sort, String description) {
-        this.sort = sort;
+    SortOrder(Sort.Direction direction, String property, String description) {
+        this.sort = createSort(direction, property);
         this.description = description;
     }
 
@@ -41,7 +43,6 @@ class SortFactory {
     static Sort createSort(Sort.Direction direction, String property) {
         return new Sort(new Order(direction, property));
     }
-
 }
 
 

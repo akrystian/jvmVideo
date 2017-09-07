@@ -10,7 +10,7 @@ import pro.adamski.jvmvideo.service.videos.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static pro.adamski.jvmvideo.classes.SortOrder.DATE_DESC;
+import static pro.adamski.jvmvideo.classes.SortOrder.DEFAULT_SORT_ORDER;
 import static pro.adamski.jvmvideo.classes.SortOrder.valueOf;
 
 /**
@@ -18,14 +18,13 @@ import static pro.adamski.jvmvideo.classes.SortOrder.valueOf;
  */
 @Controller
 public class VideoController {
-
     private static final int DEFAULT_PAGE_SIZE = 5;
     private static final int DEFAULT_PAGE = 0;
     private static final String YOUTUBE_LINK_PREFIX = "https://www.youtube.com/watch?v=";
     private static final String P_PAGE_SIZE = "size";
     private static final String P_PAGE_START = "start";
     private static final String P_SORT_ORDER = "sort";
-    private static final SortOrder DEFAULT_SORT_ORDER = DATE_DESC;
+
     private final VideoService videoService;
 
     @Autowired

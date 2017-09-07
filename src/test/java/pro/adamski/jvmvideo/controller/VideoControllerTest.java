@@ -67,5 +67,14 @@ public class VideoControllerTest{
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void shouldReturnListOfVideosWithPaginationAndSorting() throws Exception {
+        //then
+        mvc.perform(get("/").param("size", "1").param("start", "1").param("sort", "views_desc").accept
+                (MediaType
+                        .TEXT_PLAIN))
+                .andExpect(status().isOk());
+    }
+
 
 }
