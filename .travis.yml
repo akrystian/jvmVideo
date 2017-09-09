@@ -8,11 +8,13 @@ script:
 
 deploy:
   provider: openshift
+  edge:
+    branch: openshift-deps
   # Configure these values on your TravisCI 'Repository Settings' page:
   # http://docs.travis-ci.com/user/environment-variables/#Using-Settings
   user: $EMAIL_ADDRESS
   password:
-    secure: AzfkHq0/uLWDf2rZYLQZBTj5h/3QDOcPJ5SHhngIumfLP5pikZUjvOkAsl7T3QcowFA4jbFy7iHy/OUPUUvGVk8H40fyaiNIb7GXHX0Sh8vr5ahb7gpOoXkme0J31ayBubJGZDb7YvI5NWREPQsngMlUJQyOsLkiic0hoqcJa9pdB8Z6usoK8IviS2oxL1onmWxRo6j/oZIrRQC90+VgWf2+Orj8+pAYndNK83sHQdqXx6Fq9O5pxvOAcPwtUAavrOeCdJyM9MJHAWLGQD6mn3MP6pXdVM82ChSc8+hwq623d8RcUqDX7irnHHdMM1ZYt63MxCVkpVfYVsNUt/SGtHybPifsxKYSZbuvhJUrPx9oE4ImQk6tLurL0vv/oRvWKoi+0442c3Si5gc8fpvll81rTQNjHtXetnujVq9Q14/c0JqHA8ISonVujlmXM0nk3FwctczozlPjER891myTabWDkqIk4VW0vzdzM+MpjF7ayIOOue6n/m/nZQ/HRQt4T8dG9uFBoyZVLTtugzLQOtmaMMIMe3ftgvKvBnukqzCcGcqnnOBdW3Bnr59d3uCzJpw06j+NuJ+PjQLOhra/MJX5kPS/e6PFJ5lEi+DD8I4hphS/oLraxAP+D967kwVBb4TffHAhw1YuOP56WS6xWutZuReA4lcoqe76pLI9SIY=
+    secure: "Y5VbjENlnSzFcDZVBpBZYGh7EPdDpLgNw5aZUM4qP3fd9S4avZoo98DLFH5MBT4Mh41GMp3en16hM3DizuP3gKKJL0dh2lTRngOVkCop0oT1CYfwStW0R+siuZ1prX0AyEYouS+tGNTaIVPtv5DC2kRKCximoR/Ji3qx0l7Mkwinua96U7+mZBCbUcPnVJhgXuIPhts1oR00D9uokZ/onKZXMLiJjy0Iv7ZF3/MrC9sU8jC6BkqLMiDnc5WFDbkbA7jZeQfKxc+uv1bOKXag1VNF6W3ed+yGN+6X3Zifvzxf+Q4qa4fjU2PhedxjzscG7thKRdbU/3X6ZwqSjjqbEhiAkFp5qGvguYyPWoNNaVPF4ZY/ow+uEvRMmNjW4d6mRurEnqfu2y24kRV/1EWwDXcm/ESejjCbCKieRqAYIEND+ABPMyOQbaSSnlKM/eCs1/Mht2UFMFSdf41nS2yvloIuHdh4u5PKlWyRo7ANtxQyc0TjB8cWKjFs8WEvV25dzD1Nxl/RIj8uSoWcE0AQX3Uc9Q9ZmgPi63WdhywF1VIV9p3nlb2TSjX7uvwqQlhi/vozBkWSj3dq02AV9IujJ7mta98y6ae8P66eDt1UtQhv/QoWaKMbfm4RH0VS+N84hQA3BLkUcjN+qpk/6qUgiULAU1x80wF/+QuvY2ioBv8="
   app: $APP_NAME
   domain: $DOMAIN_NAME
   on:
@@ -22,5 +24,5 @@ deploy:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - "[[ $TRAVIS_BRANCH == 'master' ]] && mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.login=${SONAR_TOKEN}"
-  - "[[ $TRAVIS_BRANCH == 'master' ]] && git config --global user.email 'travis@localhost.localdomain' && git config --global user.name 'Travis CI' && git add --all && git commit -am 'Travis change'"
+  - "[[ $TRAVIS_BRANCH == 'master' ]] && git config --global user.email 'travis@localhost.localdomain' && git config --global user.name 'Travis CI' && git add --all && git commit -am 'Travis change' && git push origin HEAD:master --force "
 
