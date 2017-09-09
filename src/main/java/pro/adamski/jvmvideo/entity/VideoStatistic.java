@@ -29,6 +29,13 @@ public class VideoStatistic {
         this.disliked = disliked;
     }
 
+    public void setAll(VideoStatistic videoStatistic) {
+        this.views = videoStatistic.getViews();
+        this.liked = videoStatistic.getLiked();
+        this.disliked = videoStatistic.getDisliked();
+    }
+
+
     public long getViews() {
         return views;
     }

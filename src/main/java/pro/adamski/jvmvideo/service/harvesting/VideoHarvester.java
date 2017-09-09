@@ -18,7 +18,8 @@ import java.util.List;
  */
 class VideoHarvester {
     private static final Long MAX_RESULTS = 1L;
-    private static final String REQUESTED_PART = "id,snippet,statistics,contentDetails";
+    private static final String ALL = "id,snippet,statistics,contentDetails";
+    private static final String STATS = "statistics";
     private final YouTube youTube;
     private final String apiKey;
 
@@ -29,7 +30,17 @@ class VideoHarvester {
     }
 
     Video harvest(YouTubeChannel channel, String videoId) throws IOException {
-        YouTube.Videos.List listVideosRequest = youTube.videos().list(REQUESTED_PART);
+        final com.google.api.services.youtube.model.Video input = getVideo(videoId, ALL);
+        return new VideoMapper(channel).map(input);
+    }
+
+    VideoStatistic harvestStats(String videoId) throws IOException {
+        final com.google.api.services.youtube.model.Video input = getVideo(videoId, STATS);
+        return VideoMapper.map(input.getStatistics());
+    }
+
+    private com.google.api.services.youtube.model.Video getVideo(String videoId, String requestedPart) throws IOException {
+        YouTube.Videos.List listVideosRequest = youTube.videos().list(requestedPart);
         listVideosRequest.setId(videoId);
         listVideosRequest.setMaxResults(MAX_RESULTS);
         listVideosRequest.setKey(apiKey);
@@ -37,7 +48,7 @@ class VideoHarvester {
         if (videos.size() != 1) {
             throw new HarvestingException("Unsupported number of records! Number : " + videos.size() + "!");
         }
-        return new VideoMapper(channel).map(videos.get(0));
+        return videos.get(0);
     }
 }
 
@@ -48,12 +59,16 @@ class VideoMapper {
         this.source = source;
     }
 
-    Video map(final com.google.api.services.youtube.model.Video input) {
-        final VideoStatistics statistics = input.getStatistics();
-        VideoStatistic statistic = new VideoStatistic(
+    static VideoStatistic map(VideoStatistics statistics) {
+        return new VideoStatistic(
                 statistics.getViewCount().longValue(),
                 statistics.getLikeCount().longValue(),
                 statistics.getDislikeCount().longValue());
+    }
+
+    Video map(final com.google.api.services.youtube.model.Video input) {
+        final VideoStatistics statistics = input.getStatistics();
+        VideoStatistic statistic = map(statistics);
         return new Video(input.getId(),
                 input.getSnippet().getTitle(),
                 input.getSnippet().getDescription(),
