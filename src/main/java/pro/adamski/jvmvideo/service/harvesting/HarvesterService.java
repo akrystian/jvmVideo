@@ -15,7 +15,7 @@ import pro.adamski.jvmvideo.repository.VideoRepository;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,9 +40,7 @@ public class HarvesterService {
     @PostConstruct
     public void init() {
         if (sourceRepository.findAll().isEmpty()) {
-            List<YouTubeChannel> youTubeChannels = Arrays.asList(
-                    new YouTubeChannel("Toronto JUG", new DateTime(0L),
-                            "UC6D58UvAH98IaMVZr80-03g"),
+            List<YouTubeChannel> youTubeChannels = Collections.singletonList(
                     new YouTubeChannel("Warsaw JUG", new DateTime(0L),
                             "UC2coGyxf5x_CzJ3l4F-N-Sw"));
             youTubeChannels.forEach(sourceRepository::save);

@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.VideoStatistic;
@@ -26,10 +27,11 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ActiveProfiles("unitdb") // Workaround to the problem with setting utf8mb4 charset on H2 DB.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class VideoRepositoryTest {
     @Autowired
-    VideoRepository repository;
+    private VideoRepository repository;
 
 
     @Test

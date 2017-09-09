@@ -7,7 +7,5 @@ CREATE TABLE `video` (
   `thumbnail_link` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-)
-  DEFAULT CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+);
 

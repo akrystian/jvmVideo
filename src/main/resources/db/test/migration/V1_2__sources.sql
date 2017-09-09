@@ -5,9 +5,7 @@ CREATE TABLE `source` (
   `name` varchar(255) DEFAULT NULL,
   `channel_link` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-)
-  DEFAULT CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+);
 
 ALTER TABLE video
   ADD source_id bigint(20) DEFAULT NULL;
