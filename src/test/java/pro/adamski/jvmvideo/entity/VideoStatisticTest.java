@@ -40,4 +40,19 @@ public class VideoStatisticTest {
         assertThat(instance.getLiked(), is(2L));
         assertThat(instance.getDisliked(), is(3L));
     }
+
+    @Test
+    public void shouldSetAllParms() {
+        //given
+        VideoStatistic instance = new VideoStatistic(1, 2, 3);
+        VideoStatistic actual = new VideoStatistic(5, 6, 7);
+
+        //when
+        instance.setAll(actual);
+
+        //then
+        assertThat(instance.getViews(), is(5L));
+        assertThat(instance.getLiked(), is(6L));
+        assertThat(instance.getDisliked(), is(7L));
+    }
 }

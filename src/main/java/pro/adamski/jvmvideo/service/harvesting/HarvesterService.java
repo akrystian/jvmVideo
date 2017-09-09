@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
+import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 import pro.adamski.jvmvideo.repository.SourceRepository;
 import pro.adamski.jvmvideo.repository.VideoRepository;
@@ -45,6 +46,7 @@ public class HarvesterService {
                             "UC2coGyxf5x_CzJ3l4F-N-Sw"));
             youTubeChannels.forEach(sourceRepository::save);
         }
+        updateStats();
         harvestAllSources();
     }
 
@@ -52,6 +54,20 @@ public class HarvesterService {
     @Scheduled(cron = "0 0 * * * MON")
     public void harvestAllSources() {
         sourceRepository.findAll().forEach(this::harvestSource);
+    }
+
+    @Scheduled(cron = "0 0 * * * MON")
+    public void updateStats() {
+        videoRepository.findAll().forEach(this::updateSingleVideoStats);
+    }
+
+    @Transactional
+    private void updateSingleVideoStats(Video video) {
+        try {
+            videoRepository.save(youtubeHarvester.updateStats(video));
+        } catch (IOException e) {
+            throw new HarvestingException(e);
+        }
     }
 
     private void harvestSource(final Source source) {

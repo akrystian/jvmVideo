@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pro.adamski.jvmvideo.entity.Video;
+import pro.adamski.jvmvideo.entity.VideoStatistic;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 
 import javax.annotation.PostConstruct;
@@ -47,6 +48,12 @@ public class YoutubeHarvester {
 
     List<String> harvestIdentifiers(YouTubeChannel channel, long harvestingTime) throws IOException {
         return identifierHarvester.harvest(channel, harvestingTime);
+    }
+
+    Video updateStats(Video video) throws IOException {
+        final VideoStatistic old = video.getStatistic();
+        old.setAll(videoHarvester.harvestStats(video.getVideoId()));
+        return video;
     }
 }
 

@@ -37,4 +37,23 @@ public class VideoHarvesterTest {
             assertThat(e.getDetails().getErrors().get(0).getDomain(), is("usageLimits"));
         }
     }
+
+    @Test
+    public void shouldHarvestVideoStats() throws IOException {
+        //given
+        final YouTube youTube = new YouTube
+                .Builder(new NetHttpTransport(), new JacksonFactory(), null)
+                .setApplicationName("test")
+                .build();
+        VideoHarvester harvester = new VideoHarvester(youTube, "");
+        final YouTubeChannel channel = new YouTubeChannel("name", new DateTime(DateTime.now()),
+                "identifier");
+        //when
+        try {
+            harvester.harvestStats("identifier");
+            fail("Exception expected!");
+        } catch (GoogleJsonResponseException e) {
+            assertThat(e.getDetails().getErrors().get(0).getDomain(), is("usageLimits"));
+        }
+    }
 }

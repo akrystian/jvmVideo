@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
+import pro.adamski.jvmvideo.entity.VideoStatistic;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 import pro.adamski.jvmvideo.repository.SourceRepository;
 import pro.adamski.jvmvideo.repository.VideoRepository;
@@ -72,5 +73,27 @@ public class HarvesterServiceTest {
         then(videoRepository).should(times(1)).save(any(Video.class));
     }
 
+    @Test
+    public void shouldUpdateVideoStats() throws IOException {
+        //given
+        final Video videoA = new Video(
+                "id1",
+                "title1",
+                "description1",
+                new Date(0L),
+                Duration.ofMinutes(552),
+                "https://i.ytimg.com/vi/zQll41ha5_g/default1.jpg",
+                null, new VideoStatistic(2, 1, 2));
+        given(videoRepository.findAll()).willReturn(Collections.singletonList(videoA
+        ));
+
+        given(youtubeHarvester.updateStats(any(Video.class))).willReturn(videoA);
+
+        //when
+        instance.updateStats();
+
+        //then
+        then(videoRepository).should(times(1)).save(any(Video.class));
+    }
 
 }
