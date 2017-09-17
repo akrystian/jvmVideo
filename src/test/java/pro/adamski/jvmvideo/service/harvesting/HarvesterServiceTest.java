@@ -10,6 +10,7 @@ import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 import pro.adamski.jvmvideo.repository.SourceRepository;
 import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -32,7 +33,7 @@ public class HarvesterServiceTest {
     private SourceRepository sourceRepository;
 
     @MockBean
-    private YoutubeHarvester youtubeHarvester;
+    private YouTubeService youtubeHarvester;
 
     @MockBean
     private VideoRepository videoRepository;
@@ -62,8 +63,8 @@ public class HarvesterServiceTest {
                 new YouTubeChannel("name", new DateTime(DateTime.now()),
                         "identifier")));
 
-        given(youtubeHarvester.harvestVideo(any(), anyString())).willReturn(videoA);
-        given(youtubeHarvester.harvestIdentifiers(any(YouTubeChannel.class), anyLong())).willReturn
+        given(youtubeHarvester.harvestVideoFromChannel(any(), anyString())).willReturn(videoA);
+        given(youtubeHarvester.harvestIdsFromChannel(any(YouTubeChannel.class), anyLong())).willReturn
                 (Collections.singletonList("identifier"));
         //when
         instance.harvestAllSources();

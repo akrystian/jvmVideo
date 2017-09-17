@@ -1,0 +1,70 @@
+{
+  "etag": "\"VPWTmrH7dFmi4s1RqrK4tLejnRI/aKE5EtndIpjONXmLbhISJuanPM4\"",
+  "items": [
+    {
+      "contentDetails": {
+        "caption": "false",
+        "definition": "hd",
+        "dimension": "2d",
+        "duration": "PT1H7M26S",
+        "licensedContent": false,
+        "projection": "rectangular"
+      },
+      "etag": "\"VPWTmrH7dFmi4s1RqrK4tLejnRI/jad1S5HTaKjoGXNXH_6UKNovubk\"",
+      "id": "zQll41ha5_g",
+      "kind": "youtube#video",
+      "snippet": {
+        "categoryId": "27",
+        "channelId": "UC2coGyxf5x_CzJ3l4F-N-Sw",
+        "channelTitle": "Warsaw JUG",
+        "description": "",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "description": "",
+          "title": "Jinkubator #25 - Spring Boot - Jakub Kubryński"
+        },
+        "publishedAt": "2015-03-13T16:36:41.000Z",
+        "thumbnails": {
+          "default": {
+            "height": 90,
+            "url": "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
+            "width": 120
+          },
+          "high": {
+            "height": 360,
+            "url": "https://i.ytimg.com/vi/zQll41ha5_g/hqdefault.jpg",
+            "width": 480
+          },
+          "maxres": {
+            "height": 720,
+            "url": "https://i.ytimg.com/vi/zQll41ha5_g/maxresdefault.jpg",
+            "width": 1280
+          },
+          "medium": {
+            "height": 180,
+            "url": "https://i.ytimg.com/vi/zQll41ha5_g/mqdefault.jpg",
+            "width": 320
+          },
+          "standard": {
+            "height": 480,
+            "url": "https://i.ytimg.com/vi/zQll41ha5_g/sddefault.jpg",
+            "width": 640
+          }
+        },
+        "title": "Jinkubator #25 - Spring Boot - Jakub Kubryński"
+      },
+      "statistics": {
+        "commentCount": "6",
+        "dislikeCount": "1",
+        "favoriteCount": "0",
+        "likeCount": "131",
+        "viewCount": "10764"
+      }
+    }
+  ],
+  "kind": "youtube#videoListResponse",
+  "pageInfo": {
+    "resultsPerPage": 1,
+    "totalResults": 1
+  }
+}

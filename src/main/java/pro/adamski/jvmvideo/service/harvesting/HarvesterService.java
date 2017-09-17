@@ -8,9 +8,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
+import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 import pro.adamski.jvmvideo.repository.SourceRepository;
 import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
@@ -24,15 +26,15 @@ import java.util.List;
 @Service
 public class HarvesterService {
     private static final Logger log = LoggerFactory.getLogger(HarvesterService.class);
-    private final YoutubeHarvester youtubeHarvester;
+    private final YouTubeService youTubeService;
     private final SourceRepository sourceRepository;
     private final VideoRepository videoRepository;
 
     @Autowired
-    public HarvesterService(YoutubeHarvester youtubeHarvester,
+    public HarvesterService(YouTubeService youTubeService,
                             SourceRepository sourceRepository,
                             VideoRepository videoRepository) {
-        this.youtubeHarvester = youtubeHarvester;
+        this.youTubeService = youTubeService;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
     }
@@ -41,17 +43,32 @@ public class HarvesterService {
     public void init() {
         if (sourceRepository.findAll().isEmpty()) {
             List<YouTubeChannel> youTubeChannels = Collections.singletonList(
-                    new YouTubeChannel("Warsaw JUG", new DateTime(0L),
-                            "UC2coGyxf5x_CzJ3l4F-N-Sw"));
+                    new YouTubeChannel("vJUG", new DateTime(0L),
+                            "UCBxVkwrVRo8BnQ1g96MHZ0Q"));
             youTubeChannels.forEach(sourceRepository::save);
         }
+        updateStats();
         harvestAllSources();
     }
 
 
-    @Scheduled(cron = "0 0 * * * MON")
+    @Scheduled(cron = "0 0 3 * * MON")
     public void harvestAllSources() {
         sourceRepository.findAll().forEach(this::harvestSource);
+    }
+
+    @Scheduled(cron = "0 0 4 * * *")
+    public void updateStats() {
+        videoRepository.findAll().forEach(this::updateSingleVideoStats);
+    }
+
+    @Transactional
+    private void updateSingleVideoStats(Video video) {
+        try {
+            videoRepository.save(youTubeService.updateStats(video));
+        } catch (IOException e) {
+            throw new HarvestingException(e);
+        }
     }
 
     private void harvestSource(final Source source) {
@@ -65,7 +82,7 @@ public class HarvesterService {
     private int harvestNewRecordsFromChannel(YouTubeChannel channel, long harvestingTime) {
         int harvestedVideosCounter = 0;
         try {
-            List<String> videoIds = youtubeHarvester.harvestIdentifiers(channel, harvestingTime);
+            List<String> videoIds = youTubeService.harvestIdsFromChannel(channel, harvestingTime);
             for (String videoId : videoIds) {
                 harvestSingleVideo(channel, videoId);
                 harvestedVideosCounter++;
@@ -84,7 +101,7 @@ public class HarvesterService {
 
     @Transactional
     private void harvestSingleVideo(YouTubeChannel channel, String videoId) throws IOException {
-        videoRepository.save(youtubeHarvester.harvestVideo(channel, videoId));
+        videoRepository.save(youTubeService.harvestVideoFromChannel(channel, videoId));
     }
 
 }
