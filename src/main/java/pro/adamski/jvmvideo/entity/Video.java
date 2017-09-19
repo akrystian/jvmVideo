@@ -16,9 +16,6 @@ import static org.apache.commons.lang3.Validate.notNull;
 @Entity
 public class Video {
     @Id
-    @GeneratedValue
-    private long id;
-
     private String videoId;
     private String title;
     private String description;
@@ -59,10 +56,6 @@ public class Video {
         this.statistic = statistic;
     }
 
-    public long getId() {
-        return id;
-    }
-
     public String getVideoId() {
         return videoId;
     }
@@ -100,12 +93,12 @@ public class Video {
             return false;
         }
         Video video = (Video) o;
-        return id == video.id;
+        return videoId.equals(video.videoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(videoId);
     }
 
     public VideoStatistic getStatistic() {
