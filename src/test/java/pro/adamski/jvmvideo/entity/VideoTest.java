@@ -41,7 +41,6 @@ public class VideoTest {
     @Test
     public void shouldReturnFields() throws Exception {
         //that
-        assertThat(videoA.getId(), is(0L));
         assertThat(videoA.getTitle(), is("title2"));
         assertThat(videoA.getDescription(), is("description2"));
         assertThat(videoA.getPublishDate(), is(new Date(0L)));
