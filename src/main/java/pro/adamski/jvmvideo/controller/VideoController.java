@@ -20,7 +20,7 @@ import static pro.adamski.jvmvideo.classes.SortOrder.valueOf;
 public class VideoController {
     private static final int DEFAULT_PAGE_SIZE = 5;
     private static final int DEFAULT_PAGE = 0;
-    private static final String YOUTUBE_LINK_PREFIX = "https://www.youtube.com/watch?v=";
+
     private static final String P_PAGE_SIZE = "size";
     private static final String P_PAGE_START = "start";
     private static final String P_SORT_ORDER = "sort";
@@ -40,7 +40,6 @@ public class VideoController {
         final Pagination pagination = new Pagination(videoService.getVideosSize(), DEFAULT_PAGE_SIZE,
                 page + 1, createOrderString(sortOrder, "start="));
         model.addAttribute("videos", videoService.getVideosPage(page, pageSize, sortOrder));
-        model.addAttribute("youtubeLinkPrefix", YOUTUBE_LINK_PREFIX);
         model.addAttribute("pagination", pagination);
         model.addAttribute("sortOrder", sortOrder);
         return "main";

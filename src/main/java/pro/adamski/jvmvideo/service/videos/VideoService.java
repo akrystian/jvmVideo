@@ -30,6 +30,10 @@ public class VideoService {
                 .getContent();
     }
 
+    public String getVideoLink(String videoId) {
+        return videoRepository.findOne(videoId).getVideoLink();
+    }
+
     public long getVideosSize() {
         return videoRepository.count();
     }

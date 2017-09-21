@@ -47,6 +47,7 @@ public class VideoTest {
         assertThat(videoA.getDuration(), is(Duration.ofMinutes(552)));
         assertThat(videoA.getThumbnailLink(), is("https://i.ytimg.com/vi/zQll41ha5_g/default.jpg"));
         assertThat(videoA.getSource(), is(channel));
+        assertThat(videoA.getVideoLink(), is("https://www.youtube.com/watch?v=id1"));
     }
 
     @Test

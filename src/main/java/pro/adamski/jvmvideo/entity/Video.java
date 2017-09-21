@@ -15,6 +15,8 @@ import static org.apache.commons.lang3.Validate.notNull;
  */
 @Entity
 public class Video {
+    private static final String YOUTUBE_LINK_PREFIX = "https://www.youtube.com/watch?v=";
+
     @Id
     private String videoId;
     private String title;
@@ -82,6 +84,10 @@ public class Video {
 
     public Source getSource() {
         return source;
+    }
+
+    public String getVideoLink() {
+        return YOUTUBE_LINK_PREFIX + videoId;
     }
 
     @Override
