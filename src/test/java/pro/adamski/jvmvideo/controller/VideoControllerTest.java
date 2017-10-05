@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -51,6 +52,13 @@ public class VideoControllerTest {
 
     @Test
     public void shouldReturnListOfVideos() throws Exception {
+        //then
+        mvc.perform(get("/").accept(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk()).andExpect(header().string("Cache-Control", "max-age=7200, public"));
+    }
+
+    @Test
+    public void shouldReturnListOfVideosWithCache() throws Exception {
         //then
         mvc.perform(get("/").accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
