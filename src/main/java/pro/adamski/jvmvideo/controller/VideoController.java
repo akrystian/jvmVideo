@@ -1,6 +1,7 @@
 package pro.adamski.jvmvideo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,9 @@ import pro.adamski.jvmvideo.classes.SortOrder;
 import pro.adamski.jvmvideo.service.videos.VideoService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import static pro.adamski.jvmvideo.classes.CacheControlGenerator.generateHeader;
 import static pro.adamski.jvmvideo.classes.SortOrder.DEFAULT_SORT_ORDER;
 import static pro.adamski.jvmvideo.classes.SortOrder.valueOf;
 
@@ -26,14 +29,17 @@ public class VideoController {
     private static final String P_SORT_ORDER = "sort";
 
     private final VideoService videoService;
+    private final int cachePeriod;
 
     @Autowired
-    public VideoController(VideoService videoService) {
+    public VideoController(VideoService videoService,
+                           @Value("${jvmvideo.resources.cache-period}") int cachePeriod) {
         this.videoService = videoService;
+        this.cachePeriod = cachePeriod;
     }
 
     @RequestMapping("/")
-    public String latestVideos(Model model, HttpServletRequest request) {
+    public String latestVideos(Model model, HttpServletRequest request, HttpServletResponse response) {
         final int page = getPage(request);
         final int pageSize = getPageSize(request);
         final SortOrder sortOrder = getSortOrder(request);
@@ -42,6 +48,7 @@ public class VideoController {
         model.addAttribute("videos", videoService.getVideosPage(page, pageSize, sortOrder));
         model.addAttribute("pagination", pagination);
         model.addAttribute("sortOrder", sortOrder);
+        response.addHeader("Cache-Control", generateHeader(cachePeriod));
         return "main";
     }
 
