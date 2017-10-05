@@ -10,9 +10,12 @@ import java.util.List;
 /**
  * @author akrystian.
  */
-public interface VideoRepository extends PagingAndSortingRepository<Video, Long> {
+public interface VideoRepository extends PagingAndSortingRepository<Video, String> {
     @Override
     Page<Video> findAll(Pageable pageable);
+
+    @Override
+    Video findOne(String videoId);
 
     @Override
     long count();

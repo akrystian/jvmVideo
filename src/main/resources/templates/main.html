@@ -30,7 +30,7 @@
     </div>
     <div class="row" th:each="v : ${videos}">
         <hr/>
-        <a th:href="${youtubeLinkPrefix} + ${v.videoId}">
+        <a th:href="@{/show/{id}(id=${v.videoId})}">
             <div class="col-sm-2">
                 <img th:src="${v.thumbnailLink}"/>
             </div>

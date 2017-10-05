@@ -89,4 +89,25 @@ public class VideoRepositoryTest {
         assertThat(all.get(1).getVideoId(), is("id2"));
     }
 
+    @Test
+    public void shouldFindOne() {
+        //given
+        final Video videoA = new Video(
+                "id1",
+                "title2",
+                "description2",
+                new Date(0L),
+                Duration.ofMinutes(552),
+                "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
+                null, null);
+        repository.save(videoA);
+
+        //when
+        final Video video = repository.findOne("id1");
+
+
+        //then
+        assertThat(video.getVideoId(), is("id1"));
+    }
+
 }
