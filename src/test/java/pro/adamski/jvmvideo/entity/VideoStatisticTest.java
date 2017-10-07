@@ -40,4 +40,13 @@ public class VideoStatisticTest {
         assertThat(instance.getLiked(), is(2L));
         assertThat(instance.getDisliked(), is(3L));
     }
+
+    @Test
+    public void shouldGetsTrendingValues() {
+        //given
+        VideoStatistic instance = new VideoStatistic(100, 20, 3);
+
+        //then
+        assertThat(instance.getLikesRatio(), is(20D));
+    }
 }

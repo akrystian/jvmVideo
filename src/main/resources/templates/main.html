@@ -25,6 +25,7 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownSort">
             <li><a th:href="@{'/'(sort='views_desc')}">views</a></li>
             <li><a th:href="@{'/'(sort='likes_desc')}">likes</a></li>
+            <li><a th:href="@{'/'(sort='likes_ratio_desc')}">trending</a></li>
             <li><a th:href="@{'/'}">date</a></li>
         </ul>
     </div>
@@ -57,6 +58,11 @@
                     <li class="text-muted">
                         <span class="glyphicon glyphicon-thumbs-down"></span>
                         <span th:text="${v.statistic.disliked}"></span>
+                    </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-signal"></span>
+                        <span
+                                th:text="${#numbers.formatDecimal(v.statistic.likesRatio, 1, 2,'POINT')} + '%'"></span>
                     </li>
                 </ul>
                 <p th:text="${#strings.abbreviate(v.description,200)}">Description</p>
