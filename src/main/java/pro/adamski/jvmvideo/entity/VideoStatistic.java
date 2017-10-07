@@ -18,6 +18,7 @@ public class VideoStatistic {
     private long views;
     private long liked;
     private long disliked;
+    private double likesRatio;
 
     public VideoStatistic() {
         // hibernate entity
@@ -27,12 +28,21 @@ public class VideoStatistic {
         this.views = views;
         this.liked = liked;
         this.disliked = disliked;
+        this.likesRatio = likesRatio(views, liked);
+    }
+
+    private double likesRatio(long views, long liked) {
+        if (views < 100 || liked < 10) {
+            return 0.0D;
+        }
+        return ((double) liked / views) * 100.0D;
     }
 
     public void setAll(VideoStatistic all) {
         this.views = all.getViews();
         this.liked = all.getLiked();
         this.disliked = all.getDisliked();
+        this.likesRatio = likesRatio(views, liked);
     }
 
     public long getViews() {
@@ -45,6 +55,10 @@ public class VideoStatistic {
 
     public long getDisliked() {
         return disliked;
+    }
+
+    public double getLikesRatio() {
+        return likesRatio;
     }
 
     @Override
