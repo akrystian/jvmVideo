@@ -1,5 +1,5 @@
 # jvmVideo
-
+[![CircleCI](https://circleci.com/gh/akrystian/jvmVideo/tree/master.svg?style=svg)](https://circleci.com/gh/akrystian/jvmVideo/tree/master)
 [![Build Status](https://travis-ci.org/akrystian/jvmVideo.svg?branch=master)](https://travis-ci.org/akrystian/jvmVideo)
 [![Quality Gate](https://sonarqube.com/api/badges/gate?key=pro.adamski:jvmVideo)](https://sonarcloud.io/dashboard?id=pro.adamski:jvmVideo)
 [![codecov](https://codecov.io/gh/akrystian/jvmVideo/branch/master/graph/badge.svg)](https://codecov.io/gh/akrystian/jvmVideo)
