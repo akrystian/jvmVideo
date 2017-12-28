@@ -43,7 +43,6 @@
     }
   ],
   "kind": "youtube#searchListResponse",
-  "nextPageToken": "CAUQAA",
   "pageInfo": {
     "resultsPerPage": 5,
     "totalResults": 185
