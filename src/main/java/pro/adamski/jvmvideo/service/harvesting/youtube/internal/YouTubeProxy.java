@@ -4,6 +4,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -44,13 +46,31 @@ public class YouTubeProxy {
 
     public List<SearchResult> listIdsFromChannel(String channelId, DateTime since, DateTime until)
             throws IOException {
+        List<SearchResult> result = new ArrayList<>();
+        SearchListResponse response;
+        String pageToken = null;
+        do {
+            response = getPageSearchListResponse(channelId, since, until, pageToken);
+            final List<SearchResult> items = response.getItems();
+            result.addAll(items);
+            pageToken = response.getNextPageToken();
+        } while (pageToken != null);
+
+        return result;
+    }
+
+    private SearchListResponse getPageSearchListResponse(String channelId, DateTime since, DateTime
+            until, String pageToken) throws IOException {
         YouTube.Search.List search = youTube.search().list(REQUESTED_PART);
         search.setKey(apiKey)
                 .setChannelId(channelId)
                 .setMaxResults(MAX_RESULTS)
                 .setPublishedBefore(until)
                 .setPublishedAfter(since);
-        return search.execute().getItems();
+        if (pageToken != null) {
+            search.setPageToken(pageToken);
+        }
+        return search.execute();
     }
 
     public List<Video> getVideo(String videoId, RequestedPart requestedPart) throws IOException {
