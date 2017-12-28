@@ -11,10 +11,10 @@ import static pro.adamski.jvmvideo.classes.SortFactory.createSort;
  */
 public enum SortOrder {
 
-
     DATE_DESC(DESC, "publishDate", "date"),
     VIEWS_DESC(DESC, "statistic_views", "views"),
-    LIKES_DESC(DESC, "statistic_liked", "likes");
+    LIKES_DESC(DESC, "statistic_liked", "likes"),
+    LIKES_RATIO_DESC(DESC, "statistic_likesRatio", "likes ratio");
 
     public static final SortOrder DEFAULT_SORT_ORDER = DATE_DESC;
     private Sort sort;

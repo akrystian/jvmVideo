@@ -19,4 +19,4 @@ Used technologies:
  - MySql
  - Flyway
 
-Test instance (auto-deployed via [travis CI](https://travis-ci.org/)): [http://test.jvmvideo.adamski.pro/](http://test.jvmvideo.adamski.pro/)
+[http://jvmvideo.adamski.pro/](http://jvmvideo.adamski.pro/)
