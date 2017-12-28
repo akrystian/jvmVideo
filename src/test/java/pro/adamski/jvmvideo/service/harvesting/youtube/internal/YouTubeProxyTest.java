@@ -17,12 +17,15 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static com.github.tomakehurst.wiremock.stubbing.Scenario.STARTED;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
@@ -39,6 +42,7 @@ import static pro.adamski.jvmvideo.service.harvesting.youtube.internal.Requested
 @PrepareForTest(NetHttpTransport.class)
 public class YouTubeProxyTest {
 
+    private final static String FINAL = "Final";
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8181));
 
@@ -55,7 +59,7 @@ public class YouTubeProxyTest {
     public void shouldFetchIds() throws Exception {
         //given
         final String file = "/listIdsFromChannel";
-        final YouTube youTube = prepareMocks(file);
+        final YouTube youTube = configureMocks(file, this::prepareMocks);
 
         final DateTime publishedAfter = new DateTime(0L);
         final DateTime publishedBefore = new DateTime(org.joda.time.DateTime.now().getMillis());
@@ -67,7 +71,7 @@ public class YouTubeProxyTest {
                 publishedAfter, publishedBefore);
 
         //then
-        assertThat(results.size(), CoreMatchers.is(5));
+        assertThat(results.size(), CoreMatchers.is(10));
     }
 
 
@@ -75,7 +79,7 @@ public class YouTubeProxyTest {
     public void shouldGetVideo() throws Exception {
         //given
         final String file = "/getVideo";
-        final YouTube youTube = prepareMocks(file);
+        final YouTube youTube = configureMocks(file, this::prepareSimpleMocks);
         final YouTubeProxy underTest = new YouTubeProxy("apiKey", youTube);
 
         //when
@@ -85,17 +89,42 @@ public class YouTubeProxyTest {
         assertThat(videos.size(), CoreMatchers.is(1));
     }
 
-    private YouTube prepareMocks(String file) throws Exception {
+    private YouTube configureMocks(String file, Consumer<String> prepareMocks) throws Exception {
         YouTube youTube;
         URL url = PowerMockito.spy(new URL("http://localhost:8181" + file));
         whenNew(URL.class).withAnyArguments().thenReturn(url);
-        stubFor(WireMock.get(urlEqualTo(file))
-                .willReturn(response200Json(getFileContent(file + ".json"))));
         youTube = new YouTube.Builder(new NetHttpTransport(), new JacksonFactory(), null
         ).setApplicationName("appName").build();
+        prepareMocks.accept(file);
         return youTube;
     }
 
+    private void prepareMocks(String file) {
+        try {
+            stubFor(WireMock.get(urlEqualTo(file))
+                    .inScenario("simpleScenario")
+                    .whenScenarioStateIs(STARTED)
+                    .willSetStateTo(FINAL)
+                    .willReturn(response200Json(getFileContent(file + "First" + ".json"))));
+
+            stubFor(WireMock.get(urlEqualTo(file))
+                    .inScenario("simpleScenario")
+                    .whenScenarioStateIs(FINAL)
+                    .willSetStateTo(STARTED)
+                    .willReturn(response200Json(getFileContent(file + FINAL + ".json"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void prepareSimpleMocks(String file) {
+        try {
+            stubFor(WireMock.get(urlEqualTo(file))
+                    .willReturn(response200Json(getFileContent(file + ".json"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
 
