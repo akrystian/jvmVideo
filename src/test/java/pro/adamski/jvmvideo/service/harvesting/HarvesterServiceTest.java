@@ -8,8 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
+import pro.adamski.jvmvideo.repository.solr.VideoRepository;
 import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import java.io.IOException;

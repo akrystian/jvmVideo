@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
+import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SourceRepositoryTest {
         //given
         final YouTubeChannel channel = new YouTubeChannel("name", new DateTime(DateTime.now()),
                 "identifier");
-        repository.save(channel);
+        repository.saveAndFlush(channel);
         //when
         List<Source> all = repository.findAll();
 

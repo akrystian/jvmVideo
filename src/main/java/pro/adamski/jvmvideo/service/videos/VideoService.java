@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pro.adamski.jvmvideo.classes.SortOrder;
 import pro.adamski.jvmvideo.entity.Video;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.solr.VideoRepository;
 
 import java.util.List;
 

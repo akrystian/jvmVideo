@@ -10,8 +10,8 @@ import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
+import pro.adamski.jvmvideo.repository.solr.VideoRepository;
 import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import javax.annotation.PostConstruct;
@@ -45,7 +45,7 @@ public class HarvesterService {
             List<YouTubeChannel> youTubeChannels = Collections.singletonList(
                     new YouTubeChannel("Poznan JUG", new DateTime(0L),
                             "UCNQqIfvcYb1nWNFP-X1woAQ"));
-            youTubeChannels.forEach(sourceRepository::save);
+            youTubeChannels.forEach(sourceRepository::saveAndFlush);
         }
         updateStats();
         harvestAllSources();
@@ -96,7 +96,7 @@ public class HarvesterService {
     @Transactional
     private void updateLastHarvested(YouTubeChannel channel, long now) {
         channel.setLastHarvested(new DateTime(now));
-        sourceRepository.save(channel);
+        sourceRepository.saveAndFlush(channel);
     }
 
     @Transactional
