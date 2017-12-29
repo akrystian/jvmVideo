@@ -43,8 +43,8 @@ public class HarvesterService {
     public void init() {
         if (sourceRepository.findAll().isEmpty()) {
             List<YouTubeChannel> youTubeChannels = Collections.singletonList(
-                    new YouTubeChannel("vJUG", new DateTime(0L),
-                            "UCBxVkwrVRo8BnQ1g96MHZ0Q"));
+                    new YouTubeChannel("Poznan JUG", new DateTime(0L),
+                            "UCNQqIfvcYb1nWNFP-X1woAQ"));
             youTubeChannels.forEach(sourceRepository::save);
         }
         updateStats();
