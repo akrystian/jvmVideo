@@ -2,6 +2,7 @@ package pro.adamski.jvmvideo.configurations;
 
 
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.solr.core.SolrOperations;
@@ -28,7 +29,8 @@ public class SolrConfig {
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new RuntimeException(e);
         }
-        return factory.getSolrClient();
+        final EmbeddedSolrServer solrClient = factory.getSolrClient();
+        return solrClient;
     }
 
     @Bean

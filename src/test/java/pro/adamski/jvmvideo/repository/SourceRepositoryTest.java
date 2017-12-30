@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("unitdb") // Workaround to the problem with setting utf8mb4 charset on H2 DB.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class SourceRepositoryTest {
+
     @Autowired
     private SourceRepository repository;
 
