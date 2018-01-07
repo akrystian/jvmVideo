@@ -1,8 +1,8 @@
-package pro.adamski.jvmvideo.repository.solr;
+package pro.adamski.jvmvideo.repository.jpa;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.solr.repository.SolrCrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import pro.adamski.jvmvideo.entity.Video;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author akrystian.
  */
-public interface VideoRepository extends SolrCrudRepository<Video, String> {
+public interface VideoRepository extends PagingAndSortingRepository<Video, String> {
     @Override
     Page<Video> findAll(Pageable pageable);
 

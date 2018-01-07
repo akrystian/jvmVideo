@@ -2,15 +2,27 @@ package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * @author akrystian.
  */
+@Entity
 public class VideoStatistic {
+    @Id
+    @GeneratedValue
+    private long id;
 
     private long views;
     private long liked;
     private long disliked;
     private double likesRatio;
+
+    public VideoStatistic() {
+        // hibernate entity
+    }
 
     public VideoStatistic(long views, long liked, long disliked) {
         this.views = views;
@@ -51,17 +63,18 @@ public class VideoStatistic {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof VideoStatistic)) return false;
-        VideoStatistic statistic = (VideoStatistic) o;
-        return views == statistic.views &&
-                liked == statistic.liked &&
-                disliked == statistic.disliked &&
-                Double.compare(statistic.likesRatio, likesRatio) == 0;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof VideoStatistic)) {
+            return false;
+        }
+        VideoStatistic that = (VideoStatistic) o;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(views, liked, disliked, likesRatio);
+        return Objects.hashCode(id);
     }
 }

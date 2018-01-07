@@ -1,12 +1,10 @@
 package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
-import org.apache.solr.client.solrj.beans.Field;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.solr.core.mapping.SolrDocument;
 import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
-import javax.persistence.Convert;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.time.Duration;
 
@@ -15,27 +13,23 @@ import static org.apache.commons.lang3.Validate.notNull;
 /**
  * @author akrystian
  */
-@SolrDocument
+@Entity
 public class Video {
     private static final String YOUTUBE_LINK_PREFIX = "https://www.youtube.com/watch?v=";
 
     @Id
     private String videoId;
     private String title;
-
-
     private String description;
-    @Field
+    @NotNull
     private Date publishDate;
-
     @Convert(converter = DurationConverter.class)
-
     private Duration duration;
-
     private String thumbnailLink;
-
+    @ManyToOne
     private Source source;
 
+    @OneToOne(cascade = {CascadeType.ALL})
     private VideoStatistic statistic;
 
 
@@ -115,5 +109,9 @@ public class Video {
 
     public VideoStatistic getStatistic() {
         return statistic;
+    }
+
+    public VideoDocument mapToVideoDocument() {
+        return new VideoDocument(videoId, title, description);
     }
 }

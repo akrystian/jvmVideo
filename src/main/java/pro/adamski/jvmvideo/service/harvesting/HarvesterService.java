@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
+import pro.adamski.jvmvideo.entity.VideoDocument;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
 import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
-import pro.adamski.jvmvideo.repository.solr.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
+import pro.adamski.jvmvideo.repository.solr.VideoDocumentsRepository;
 import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import javax.annotation.PostConstruct;
@@ -29,14 +31,16 @@ public class HarvesterService {
     private final YouTubeService youTubeService;
     private final SourceRepository sourceRepository;
     private final VideoRepository videoRepository;
+    private final VideoDocumentsRepository videoDocumentsRepository;
 
     @Autowired
     public HarvesterService(YouTubeService youTubeService,
                             SourceRepository sourceRepository,
-                            VideoRepository videoRepository) {
+                            VideoRepository videoRepository, VideoDocumentsRepository videoDocumentsRepository) {
         this.youTubeService = youTubeService;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
+        this.videoDocumentsRepository = videoDocumentsRepository;
     }
 
     @PostConstruct
@@ -59,7 +63,8 @@ public class HarvesterService {
 
     @Scheduled(cron = "0 0 4 * * *")
     public void updateStats() {
-        videoRepository.findAll().forEach(this::updateSingleVideoStats);
+        videoRepository.findAll().forEach
+                (this::updateSingleVideoStats);
     }
 
     @Transactional
@@ -101,7 +106,10 @@ public class HarvesterService {
 
     @Transactional
     private void harvestSingleVideo(YouTubeChannel channel, String videoId) throws IOException {
-        videoRepository.save(youTubeService.harvestVideoFromChannel(channel, videoId));
+        final Video video = youTubeService.harvestVideoFromChannel(channel, videoId);
+        videoRepository.save(video);
+        final VideoDocument entity = video.mapToVideoDocument();
+        videoDocumentsRepository.save(entity);
     }
 
 }

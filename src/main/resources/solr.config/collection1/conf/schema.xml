@@ -4,14 +4,17 @@
 
     <fields>
         <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
-        <field name="id" type="long" indexed="true" stored="true" required="true" multiValued="false"/>
-
-
+        <field name="videoId" type="string" indexed="true" stored="true" required="true"
+               multiValued="false"/>
+        <field name="videoTitle" type="text_general" indexed="true" stored="true" required="true"
+               multiValued="false"/>
+        <field name="videoDescription" type="text_general" indexed="true" stored="true" required="false"
+               multiValued="false"/>
     </fields>
 
-    <uniqueKey>id</uniqueKey>
+    <uniqueKey>videoId</uniqueKey>
 
-    <defaultSearchField>id</defaultSearchField>
+    <defaultSearchField>videoId</defaultSearchField>
 
     <solrQueryParser defaultOperator="AND"/>
 
