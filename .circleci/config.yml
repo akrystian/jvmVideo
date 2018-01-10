@@ -25,3 +25,12 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       - run: mvn clean package
+      - add_ssh_keys:
+                fingerprints:
+                  - "8c:24:b6:4e:0f:28:a1:b2:2f:f5:26:fa:78:70:36:8a"
+      - deploy:
+                name: Deploy master
+                command: |
+                  if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                     scp -q -r -o LogLevel=QUIET ~/repo  "${deploy_destination}"
+                  fi
