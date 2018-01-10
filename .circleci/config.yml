@@ -33,5 +33,5 @@ jobs:
                 name: Deploy master
                 command: |
                   if [ "${CIRCLE_BRANCH}" == "master" ]; then
-                     scp -q -r -o LogLevel=QUIET ~/repo  "${deploy_destination}"
+                     scp -q -r -o LogLevel=QUIET -o  StrictHostKeyChecking=no ~/repo  "${deploy_destination}"
                   fi
