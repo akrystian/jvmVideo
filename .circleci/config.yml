@@ -29,4 +29,4 @@ jobs:
       - add_ssh_keys:
                 fingerprints:
                   - "8c:24:b6:4e:0f:28:a1:b2:2f:f5:26:fa:78:70:36:8a"
-      - run: if [ "${CIRCLE_BRANCH}" == "master" ]; then scp -q -r -o LogLevel=QUIET ~/repo  "${deploy_destination}" ; fi
+      - run: if [ "${CIRCLE_BRANCH}" == "master" ]; then scp -q -r -o  StrictHostKeyChecking=no -o LogLevel=QUIET ~/repo  "${deploy_destination}" ; fi
