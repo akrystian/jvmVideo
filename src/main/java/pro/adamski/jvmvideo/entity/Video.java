@@ -1,6 +1,7 @@
 package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
+import org.springframework.data.elasticsearch.annotations.Document;
 import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @author akrystian
  */
 @Entity
+@Document(indexName = "videos")
 public class Video {
     @Id
     @GeneratedValue
