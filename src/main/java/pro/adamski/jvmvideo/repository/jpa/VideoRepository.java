@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.repository;
+package pro.adamski.jvmvideo.repository.jpa;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

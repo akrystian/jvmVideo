@@ -6,6 +6,7 @@ import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.Duration;
 
@@ -15,8 +16,11 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @author akrystian
  */
 @Entity
-@Document(indexName = "videos")
-public class Video {
+@Document(indexName = "video")
+public class Video implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue
     private long id;

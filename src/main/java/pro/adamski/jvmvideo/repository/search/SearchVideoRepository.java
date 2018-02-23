@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.repository;
+package pro.adamski.jvmvideo.repository.search;
 
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.data.domain.Page;
@@ -11,8 +11,6 @@ import pro.adamski.jvmvideo.entity.Video;
  */
 public interface SearchVideoRepository extends ElasticsearchRepository<Video, Long> {
     Video index(Video video);
-
-    Page<Video> search(QueryBuilder var1, Pageable var2);
 }
 
 

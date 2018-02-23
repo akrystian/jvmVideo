@@ -5,7 +5,7 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
+import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
