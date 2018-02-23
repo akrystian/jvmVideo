@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
+import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
 
 import java.sql.Date;
 import java.time.Duration;
@@ -28,6 +29,9 @@ public class VideoServiceTest {
     @MockBean
     private VideoRepository videoRepository;
 
+    @MockBean
+    private SearchVideoRepository searchVideoRepository;
+
     private VideoService instance;
 
     private Video videoA = new Video(
@@ -41,7 +45,7 @@ public class VideoServiceTest {
 
     @Before
     public void init() {
-        instance = new VideoService(videoRepository);
+        instance = new VideoService(videoRepository, searchVideoRepository);
     }
 
     @Test
