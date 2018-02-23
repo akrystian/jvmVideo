@@ -25,8 +25,6 @@ import static org.springframework.data.repository.query.QueryLookupStrategy.Key.
  * @author krystian
  */
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "pro.adamski.jvmvideo.repository.search",
-        queryLookupStrategy = USE_DECLARED_QUERY)
 public class ElasticsearchConfiguration {
     @Bean
     public ElasticsearchTemplate elasticsearchTemplate(Client client, Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder) {
