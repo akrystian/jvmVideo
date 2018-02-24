@@ -48,7 +48,7 @@ public class HarvesterServiceTest {
             "title2",
             "description2",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).getSeconds(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
             null);
 

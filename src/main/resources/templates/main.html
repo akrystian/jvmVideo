@@ -32,7 +32,7 @@
 
                     <li class="text-muted">
                         <span class="glyphicon glyphicon-time"></span>
-                        <span th:text="${T(pro.adamski.jvmvideo.classes.ViewHelper).convertDuration(v.duration)}"></span>
+                        <span th:text="${T(pro.adamski.jvmvideo.classes.ViewHelper).convertDuration(v.length)}"></span>
                     </li>
                 </ul>
                 <p th:text="${#strings.abbreviate(v.description,200)}">Description</p>

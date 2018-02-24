@@ -1,14 +1,16 @@
 package pro.adamski.jvmvideo.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import org.springframework.data.elasticsearch.annotations.Document;
-import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.Duration;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -17,6 +19,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  */
 @Entity
 @Document(indexName = "video")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Video implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,10 +33,10 @@ public class Video implements Serializable {
     private String description;
     @NotNull
     private Date publishDate;
-    @Convert(converter = DurationConverter.class)
-    private Duration duration;
+    private long length;
     private String thumbnailLink;
     @ManyToOne
+    @JsonIgnore
     private Source source;
 
 
@@ -43,14 +46,31 @@ public class Video implements Serializable {
     }
 
     @SuppressWarnings("squid:S2637")
-    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
-                 String thumbnailLink, Source source) {
+    @JsonCreator
+    public Video(@JsonProperty("videoId") String videoId,
+                 @JsonProperty("title") String title,
+                 @JsonProperty("description") String description,
+                 @JsonProperty("publishDate") Date publishDate,
+                 @JsonProperty("length") long length,
+                 @JsonProperty("thumbnailLink") String thumbnailLink
+                 ) {
+        this(videoId,title,description,publishDate,length,thumbnailLink,null);
+    }
+
+    @SuppressWarnings("squid:S2637")
+    public Video(String videoId,
+                 String title,
+                 String description,
+                 Date publishDate,
+                 long length,
+                 String thumbnailLink,
+                 Source source) {
         this();
         this.publishDate = notNull(publishDate);
         this.videoId = videoId;
         this.title = title;
         this.description = description;
-        this.duration = duration;
+        this.length = length;
         this.thumbnailLink = thumbnailLink;
         this.source = source;
     }
@@ -75,8 +95,8 @@ public class Video implements Serializable {
         return publishDate;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public long getLength() {
+        return length;
     }
 
     public String getThumbnailLink() {

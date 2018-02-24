@@ -21,21 +21,21 @@ public class VideoTest {
             "title2",
             "description2",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).getSeconds(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel);
     private Video videoB = new Video(
             "id1",
             "title2",
             "description1",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).getSeconds(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel);
     private Video videoC = new Video(
             "id1",
             "title2",
             "description1",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).getSeconds(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel);
 
     @Test
@@ -45,7 +45,7 @@ public class VideoTest {
         assertThat(videoA.getTitle(), is("title2"));
         assertThat(videoA.getDescription(), is("description2"));
         assertThat(videoA.getPublishDate(), is(new Date(0L)));
-        assertThat(videoA.getDuration(), is(Duration.ofMinutes(552)));
+        assertThat(videoA.getLength(), is(Duration.ofMinutes(552)));
         assertThat(videoA.getThumbnailLink(), is("https://i.ytimg.com/vi/zQll41ha5_g/default.jpg"));
         assertThat(videoA.getSource(), is(channel));
     }

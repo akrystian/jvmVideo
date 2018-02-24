@@ -21,7 +21,7 @@ public class ViewHelperTest {
         final Duration duration = Duration.ofSeconds(55555);
 
         //when
-        final String result = convertDuration(duration);
+        final String result = convertDuration(duration.getSeconds());
 
         //then
         assertThat(result, is("15:25:55"));
