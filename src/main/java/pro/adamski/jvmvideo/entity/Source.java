@@ -24,6 +24,9 @@ public abstract class Source {
     @NotNull
     private Timestamp lastHarvested;
 
+    @NotNull
+    private String videoLinkPrefix;
+
 
     public Source() {
         //hibernate entity
@@ -31,9 +34,10 @@ public abstract class Source {
     }
 
     @SuppressWarnings("squid:S2637")
-    public Source(String name, DateTime lastHarvested) {
+    public Source(String name, DateTime lastHarvested, String videoLinkPrefix) {
         this.name = name;
         this.lastHarvested = new Timestamp(notNull(lastHarvested).getMillis());
+        this.videoLinkPrefix = videoLinkPrefix;
     }
 
     public long getId() {
@@ -50,6 +54,10 @@ public abstract class Source {
 
     public void setLastHarvested(DateTime lastHarvested) {
         this.lastHarvested = new Timestamp(lastHarvested.getMillis());
+    }
+
+    public String getVideoLinkPrefix() {
+        return videoLinkPrefix;
     }
 
     public abstract String getSourceLink();

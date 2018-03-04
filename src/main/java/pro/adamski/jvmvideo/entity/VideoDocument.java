@@ -1,12 +1,12 @@
 package pro.adamski.jvmvideo.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -16,39 +16,32 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @author akrystian
  */
 @Entity
-public class Video implements Serializable {
+@Document(indexName = "video")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class VideoDocument implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue
-    private long id;
-
     private String videoId;
+    private String videoUrl;
     private String title;
     private String description;
-    @NotNull
     private Date publishDate;
     private long length;
     private String thumbnailLink;
-    @ManyToOne
-    private Source source;
-
-
-    public Video() {
-        //hibernate entity
-        publishDate = new Date(0L);
-    }
+    private String source;
 
     @SuppressWarnings("squid:S2637")
-    public Video(String videoId,
-                 String title,
-                 String description,
-                 Date publishDate,
-                 long length,
-                 String thumbnailLink,
-                 Source source) {
-        this();
+    @JsonCreator
+    public VideoDocument(@JsonProperty("video_id") String videoId,
+                         @JsonProperty("title") String title,
+                         @JsonProperty("description") String description,
+                         @JsonProperty("publish_date") Date publishDate,
+                         @JsonProperty("length") long length,
+                         @JsonProperty("thumbnail_link") String thumbnailLink,
+                         @JsonProperty("source") String source,
+                         @JsonProperty("video_url") String videoUrl
+                 ) {
         this.publishDate = notNull(publishDate);
         this.videoId = videoId;
         this.title = title;
@@ -56,10 +49,7 @@ public class Video implements Serializable {
         this.length = length;
         this.thumbnailLink = thumbnailLink;
         this.source = source;
-    }
-
-    public long getId() {
-        return id;
+        this.videoUrl = videoUrl;
     }
 
     public String getVideoId() {
@@ -86,8 +76,12 @@ public class Video implements Serializable {
         return thumbnailLink;
     }
 
-    public Source getSource() {
+    public String getSource() {
         return source;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
     }
 
     @Override
@@ -95,15 +89,15 @@ public class Video implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Video)) {
+        if (!(o instanceof VideoDocument)) {
             return false;
         }
-        Video video = (Video) o;
-        return id == video.id;
+        VideoDocument video = (VideoDocument) o;
+        return videoId == video.videoId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(videoId);
     }
 }

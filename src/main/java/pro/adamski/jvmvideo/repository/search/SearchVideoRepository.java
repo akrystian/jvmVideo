@@ -1,21 +1,17 @@
 package pro.adamski.jvmvideo.repository.search;
 
-import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import pro.adamski.jvmvideo.entity.Video;
-
-import java.util.List;
+import pro.adamski.jvmvideo.entity.VideoDocument;
 
 /**
  * @author krystian
  */
-public interface SearchVideoRepository extends ElasticsearchRepository<Video, Long> {
-    Video index(Video video);
+public interface SearchVideoRepository extends ElasticsearchRepository<VideoDocument, Long> {
+    VideoDocument index(VideoDocument video);
 
-    Page<Video> findAllByTitle(String title, Pageable pageable);
+    Page<VideoDocument> findAllByTitle(String title, Pageable pageable);
 }
 
 

@@ -2,8 +2,6 @@ package pro.adamski.jvmvideo.classes;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.time.Duration;
-
 /**
  * @author akrystian.
  */
