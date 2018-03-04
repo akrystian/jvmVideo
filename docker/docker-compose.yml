@@ -7,7 +7,7 @@ mysql:
     MYSQL_DATABASE: mysql
     MYSQL_USER: mysql
     MYSQL_PASSWORD: mysql
-
+  command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 elasticsearch:
   image: elasticsearch:2.4.6
   ports:

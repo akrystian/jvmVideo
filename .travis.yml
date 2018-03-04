@@ -6,21 +6,7 @@ jdk:
 script:
   - "mvn clean package"
 
-deploy:
-  provider: openshift
-  # Configure these values on your TravisCI 'Repository Settings' page:
-  # http://docs.travis-ci.com/user/environment-variables/#Using-Settings
-  user: $EMAIL_ADDRESS
-  password:
-    secure: AzfkHq0/uLWDf2rZYLQZBTj5h/3QDOcPJ5SHhngIumfLP5pikZUjvOkAsl7T3QcowFA4jbFy7iHy/OUPUUvGVk8H40fyaiNIb7GXHX0Sh8vr5ahb7gpOoXkme0J31ayBubJGZDb7YvI5NWREPQsngMlUJQyOsLkiic0hoqcJa9pdB8Z6usoK8IviS2oxL1onmWxRo6j/oZIrRQC90+VgWf2+Orj8+pAYndNK83sHQdqXx6Fq9O5pxvOAcPwtUAavrOeCdJyM9MJHAWLGQD6mn3MP6pXdVM82ChSc8+hwq623d8RcUqDX7irnHHdMM1ZYt63MxCVkpVfYVsNUt/SGtHybPifsxKYSZbuvhJUrPx9oE4ImQk6tLurL0vv/oRvWKoi+0442c3Si5gc8fpvll81rTQNjHtXetnujVq9Q14/c0JqHA8ISonVujlmXM0nk3FwctczozlPjER891myTabWDkqIk4VW0vzdzM+MpjF7ayIOOue6n/m/nZQ/HRQt4T8dG9uFBoyZVLTtugzLQOtmaMMIMe3ftgvKvBnukqzCcGcqnnOBdW3Bnr59d3uCzJpw06j+NuJ+PjQLOhra/MJX5kPS/e6PFJ5lEi+DD8I4hphS/oLraxAP+D967kwVBb4TffHAhw1YuOP56WS6xWutZuReA4lcoqe76pLI9SIY=
-  app: $APP_NAME
-  domain: $DOMAIN_NAME
-  on:
-    repo: akrystian/jvmVideo
-  skip_cleanup: true
-  
+ 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - "[[ $TRAVIS_BRANCH == 'master' ]] && mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.login=${SONAR_TOKEN}"
-  - "[[ $TRAVIS_BRANCH == 'master' ]] && git config --global user.email 'travis@localhost.localdomain' && git config --global user.name 'Travis CI' && git add --all && git commit -am 'Travis change'"
-

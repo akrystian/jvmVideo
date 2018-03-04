@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
@@ -13,13 +11,10 @@ import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
 
 import java.sql.Date;
 import java.time.Duration;
-import java.util.Collections;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 
 /**
  * @author akrystian.
@@ -41,7 +36,7 @@ public class VideoServiceTest {
             new Date(0L),
             Duration.ofMinutes(552).getSeconds(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-            null);
+            null, null);
 
     @Before
     public void init() {
@@ -61,15 +56,14 @@ public class VideoServiceTest {
     }
 
     @Test
-    public void shouldGetSinglePage() {
+    public void shouldGetSingleVideoLink() {
         //given
-        given(videoRepository.findAllByOrderByPublishDateDesc(any(Pageable.class)))
-                .willReturn(new PageImpl<>(Collections.singletonList(videoA)));
-
+        final String videoId = "id1";
+        given(videoRepository.findOne(videoId)).willReturn(videoA);
         //when
-        List<Video> videosPage = instance.getVideosPage(1, 1);
+        final String videoLink = instance.getVideoLink(videoId);
 
         //then
-        assertThat(videosPage.size(), is(1));
+        assertThat(videoLink, is("https://www.youtube.com/watch?v=" + videoId));
     }
 }

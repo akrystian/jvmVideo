@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+
+    working_directory: ~/repo
+
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          - v1-dependencies-
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+      - run: mvn clean package
+
+      - add_ssh_keys:
+          fingerprints:
+            - "15:e3:e0:f9:32:16:5c:af:07:a4:78:99:59:13:62:5b"
+      - deploy:
+          name: deploy-to-server
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then scp -o StrictHostKeyChecking=no -r ~/repo "${deploy_destination}" ; fi

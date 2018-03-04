@@ -10,6 +10,9 @@ import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
+import pro.adamski.jvmvideo.repository.SourceRepository;
+import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
 import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
 import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
@@ -17,7 +20,7 @@ import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,17 +29,19 @@ import java.util.List;
 @Service
 public class HarvesterService {
     private static final Logger log = LoggerFactory.getLogger(HarvesterService.class);
-    private final YoutubeHarvester youtubeHarvester;
+    private final YouTubeService youTubeService;
     private final SourceRepository sourceRepository;
     private final VideoRepository videoRepository;
     private SearchVideoRepository videoSearchRepository;
 
     @Autowired
-    public HarvesterService(YoutubeHarvester youtubeHarvester,
+    public HarvesterService(YouTubeService youTubeService,
                             SourceRepository sourceRepository,
                             VideoRepository videoRepository,
                             SearchVideoRepository videoSearchRepository) {
         this.youtubeHarvester = youtubeHarvester;
+                            VideoRepository videoRepository) {
+        this.youTubeService = youTubeService;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
         this.videoSearchRepository = videoSearchRepository;
@@ -45,20 +50,33 @@ public class HarvesterService {
     @PostConstruct
     public void init() {
         if (sourceRepository.findAll().isEmpty()) {
-            List<YouTubeChannel> youTubeChannels = Arrays.asList(
-                    new YouTubeChannel("Toronto JUG", new DateTime(0L),
-                            "UC6D58UvAH98IaMVZr80-03g"),
-                    new YouTubeChannel("Warsaw JUG", new DateTime(0L),
-                            "UC2coGyxf5x_CzJ3l4F-N-Sw"));
+            List<YouTubeChannel> youTubeChannels = Collections.singletonList(
+                    new YouTubeChannel("vJUG", new DateTime(0L),
+                            "UCBxVkwrVRo8BnQ1g96MHZ0Q"));
             youTubeChannels.forEach(sourceRepository::save);
         }
+        updateStats();
         harvestAllSources();
     }
 
 
-    @Scheduled(cron = "0 0 * * * MON")
+    @Scheduled(cron = "0 0 3 * * MON")
     public void harvestAllSources() {
         sourceRepository.findAll().forEach(this::harvestSource);
+    }
+
+    @Scheduled(cron = "0 0 4 * * *")
+    public void updateStats() {
+        videoRepository.findAll().forEach(this::updateSingleVideoStats);
+    }
+
+    @Transactional
+    private void updateSingleVideoStats(Video video) {
+        try {
+            videoRepository.save(youTubeService.updateStats(video));
+        } catch (IOException e) {
+            throw new HarvestingException(e);
+        }
     }
 
     private void harvestSource(final Source source) {
@@ -72,7 +90,7 @@ public class HarvesterService {
     private int harvestNewRecordsFromChannel(YouTubeChannel channel, long harvestingTime) {
         int harvestedVideosCounter = 0;
         try {
-            List<String> videoIds = youtubeHarvester.harvestIdentifiers(channel, harvestingTime);
+            List<String> videoIds = youTubeService.harvestIdsFromChannel(channel, harvestingTime);
             for (String videoId : videoIds) {
                 harvestSingleVideo(channel, videoId);
                 harvestedVideosCounter++;

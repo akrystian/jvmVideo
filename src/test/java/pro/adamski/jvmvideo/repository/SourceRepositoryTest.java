@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
@@ -22,10 +23,11 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ActiveProfiles("unitdb") // Workaround to the problem with setting utf8mb4 charset on H2 DB.
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class SourceRepositoryTest {
     @Autowired
-    SourceRepository repository;
+    private SourceRepository repository;
 
     @Test
     public void shouldSaveObject() {

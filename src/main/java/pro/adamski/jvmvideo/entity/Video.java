@@ -1,13 +1,13 @@
 package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
+import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.sql.Date;
 
 import static org.apache.commons.lang3.Validate.notNull;
@@ -16,14 +16,12 @@ import static org.apache.commons.lang3.Validate.notNull;
  * @author akrystian
  */
 @Entity
-public class Video implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class Video {
     @Id
     @GeneratedValue
     private long id;
 
+    @Id
     private String videoId;
     private String title;
     private String description;
@@ -34,6 +32,9 @@ public class Video implements Serializable {
     @ManyToOne
     private Source source;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    private VideoStatistic statistic;
+
 
     public Video() {
         //hibernate entity
@@ -41,13 +42,8 @@ public class Video implements Serializable {
     }
 
     @SuppressWarnings("squid:S2637")
-    public Video(String videoId,
-                 String title,
-                 String description,
-                 Date publishDate,
-                 long length,
-                 String thumbnailLink,
-                 Source source) {
+    public Video(String videoId, String title, String description, Date publishDate, long length,
+                 String thumbnailLink, Source source) {
         this();
         this.publishDate = notNull(publishDate);
         this.videoId = videoId;
@@ -56,6 +52,13 @@ public class Video implements Serializable {
         this.length = length;
         this.thumbnailLink = thumbnailLink;
         this.source = source;
+    }
+
+    @SuppressWarnings({"squid:S00107", "squid:S2637"})
+    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
+                 String thumbnailLink, Source source, VideoStatistic statistic) {
+        this(videoId, title, description, publishDate, duration, thumbnailLink, source);
+        this.statistic = statistic;
     }
 
     public long getId() {
@@ -90,6 +93,10 @@ public class Video implements Serializable {
         return source;
     }
 
+    public String getVideoLink() {
+        return YOUTUBE_LINK_PREFIX + videoId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -99,11 +106,15 @@ public class Video implements Serializable {
             return false;
         }
         Video video = (Video) o;
-        return id == video.id;
+        return videoId.equals(video.videoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(videoId);
+    }
+
+    public VideoStatistic getStatistic() {
+        return statistic;
     }
 }

@@ -16,9 +16,22 @@
 
 <div class="container">
     <ul class="pagination pagination-sm"></ul>
+    <div class="dropdown">Sort by
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSort"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                th:text="${sortOrder.getDescription()}">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownSort">
+            <li><a th:href="@{'/'(sort='views_desc')}">views</a></li>
+            <li><a th:href="@{'/'(sort='likes_desc')}">likes</a></li>
+            <li><a th:href="@{'/'(sort='likes_ratio_desc')}">trending</a></li>
+            <li><a th:href="@{'/'}">date</a></li>
+        </ul>
+    </div>
     <div class="row" th:each="v : ${videos}">
         <hr/>
-        <a th:href="${youtubeLinkPrefix} + ${v.videoId}">
+        <a th:href="@{/show/{id}(id=${v.videoId})}">
             <div class="col-sm-2">
                 <img th:src="${v.thumbnailLink}"/>
             </div>
@@ -34,6 +47,23 @@
                         <span class="glyphicon glyphicon-time"></span>
                         <span th:text="${T(pro.adamski.jvmvideo.classes.ViewHelper).convertDuration(v.length)}"></span>
                     </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-repeat"></span>
+                        <span th:text="${v.statistic.views}"></span>
+                    </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span th:text="${v.statistic.liked}"></span>
+                    </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                        <span th:text="${v.statistic.disliked}"></span>
+                    </li>
+                    <li class="text-muted">
+                        <span class="glyphicon glyphicon-signal"></span>
+                        <span
+                                th:text="${#numbers.formatDecimal(v.statistic.likesRatio, 1, 2,'POINT')} + '%'"></span>
+                    </li>
                 </ul>
                 <p th:text="${#strings.abbreviate(v.description,200)}">Description</p>
             </div>
@@ -45,14 +75,15 @@
     <!--pagination-->
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var paginationItems = /*[[${paginationItems}]]*/ '1';
-        var paginationPageSize = /*[[${paginationPageSize}]]*/ '1';
-        var paginationCurrent = /*[[${paginationCurrent}]]*/ '1';
+        var paginationItems = /*[[${pagination.getAllItems()}]]*/ '1';
+        var paginationPageSize = /*[[${pagination.getPageSize()}]]*/ '1';
+        var paginationCurrent = /*[[${pagination.getCurrentPage()}]]*/ '1';
+        var paginationHrefPrefix = /*[[${pagination.getHrefPrefix()}]]*/ '';
         /*]]>*/
 
         $(function () {
             $(".pagination").pagination({
-                hrefTextPrefix: '?start=',
+                hrefTextPrefix: paginationHrefPrefix,
                 items: paginationItems,
                 itemsOnPage: paginationPageSize,
                 currentPage: paginationCurrent,
