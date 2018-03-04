@@ -40,7 +40,7 @@ public class VideoServiceTest {
 
     @Before
     public void init() {
-        instance = new VideoService(videoRepository, searchVideoRepository);
+        instance = new VideoService(videoRepository);
     }
 
     @Test

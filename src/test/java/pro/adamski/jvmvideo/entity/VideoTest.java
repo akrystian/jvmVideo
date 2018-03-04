@@ -21,21 +21,21 @@ public class VideoTest {
             "title2",
             "description2",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).toMillis(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel, null);
     private Video videoB = new Video(
             "id1",
             "title2",
             "description1",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).toMillis(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel, null);
     private Video videoC = new Video(
             "id1",
             "title2",
             "description1",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).toMillis(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg", channel, null);
 
     @Test

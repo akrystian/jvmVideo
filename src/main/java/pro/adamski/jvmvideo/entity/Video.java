@@ -1,12 +1,8 @@
 package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
-import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
@@ -17,9 +13,7 @@ import static org.apache.commons.lang3.Validate.notNull;
  */
 @Entity
 public class Video {
-    @Id
-    @GeneratedValue
-    private long id;
+    private static final String YOUTUBE_LINK_PREFIX = "https://www.youtube.com/watch?v=";
 
     @Id
     private String videoId;
@@ -55,14 +49,10 @@ public class Video {
     }
 
     @SuppressWarnings({"squid:S00107", "squid:S2637"})
-    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
+    public Video(String videoId, String title, String description, Date publishDate, long length,
                  String thumbnailLink, Source source, VideoStatistic statistic) {
-        this(videoId, title, description, publishDate, duration, thumbnailLink, source);
+        this(videoId, title, description, publishDate, length, thumbnailLink, source);
         this.statistic = statistic;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getVideoId() {
@@ -93,10 +83,6 @@ public class Video {
         return source;
     }
 
-    public String getVideoLink() {
-        return YOUTUBE_LINK_PREFIX + videoId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -116,5 +102,9 @@ public class Video {
 
     public VideoStatistic getStatistic() {
         return statistic;
+    }
+
+    public String getVideoLink() {
+        return YOUTUBE_LINK_PREFIX + videoId;
     }
 }

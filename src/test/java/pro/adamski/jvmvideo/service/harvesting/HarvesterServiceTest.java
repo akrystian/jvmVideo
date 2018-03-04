@@ -8,8 +8,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
+import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
+import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
 import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import java.io.IOException;
@@ -48,14 +49,14 @@ public class HarvesterServiceTest {
             "title2",
             "description2",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).toMillis(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
             null, null);
 
     @Before
     public void init() {
         instance = new HarvesterService(youtubeHarvester, sourceRepository,
-                videoRepository);
+                videoRepository, videoSearchRepository);
         instance.init();
     }
 

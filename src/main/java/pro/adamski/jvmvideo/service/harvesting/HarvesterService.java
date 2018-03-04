@@ -10,12 +10,10 @@ import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
-import pro.adamski.jvmvideo.repository.VideoRepository;
-import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
 import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
 import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
+import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
@@ -39,8 +37,6 @@ public class HarvesterService {
                             SourceRepository sourceRepository,
                             VideoRepository videoRepository,
                             SearchVideoRepository videoSearchRepository) {
-        this.youtubeHarvester = youtubeHarvester;
-                            VideoRepository videoRepository) {
         this.youTubeService = youTubeService;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
@@ -109,10 +105,9 @@ public class HarvesterService {
 
     @Transactional
     private void harvestSingleVideo(YouTubeChannel channel, String videoId) throws IOException {
-        Video video = youtubeHarvester.harvestVideo(channel, videoId);
+        Video video = youTubeService.harvestVideoFromChannel(channel, videoId);
 
         videoRepository.save(video);
-        videoSearchRepository.index(video);
+        videoSearchRepository.index(new VideoMapper(channel).map(video));
     }
-
 }
