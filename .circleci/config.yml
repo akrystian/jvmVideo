@@ -32,4 +32,4 @@ jobs:
       - deploy:
           name: deploy-to-server
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then scp -o StrictHostKeyChecking=no -r ~/repo/jvmVideo-0.0.1-SNAPSHOT.jar  "${deploy_destination}" ; fi
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then scp -o StrictHostKeyChecking=no -r ~/repo "${deploy_destination}" ; fi
