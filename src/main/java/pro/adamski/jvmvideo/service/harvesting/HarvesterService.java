@@ -66,7 +66,7 @@ public class HarvesterService {
     private void updateSingleVideoStats(Video video) {
         try {
             videoRepository.save(youTubeService.updateStats(video));
-        } catch (IOException | HarvestingException e) {
+        } catch (Exception e) {
             log.error("Problem with update stats for videoId: " + video.getVideoId() +  "videoLink"+ video
                     .getVideoLink() , e);
         }
@@ -88,8 +88,8 @@ public class HarvesterService {
                 harvestSingleVideo(channel, videoId);
                 harvestedVideosCounter++;
             }
-        } catch (IOException e) {
-            throw new HarvestingException(e);
+        } catch (Exception e) {
+            log.error("Problem with harvesting: ", e);
         }
         return harvestedVideosCounter;
     }
