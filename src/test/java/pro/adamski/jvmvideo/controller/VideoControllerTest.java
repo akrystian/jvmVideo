@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import pro.adamski.jvmvideo.entity.Video;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
 import pro.adamski.jvmvideo.service.videos.VideoService;
 
 import java.sql.Date;
@@ -42,11 +42,11 @@ public class VideoControllerTest {
     public void init() {
         given(videoRepository.findAll()).willReturn(Arrays.asList(
                 new Video("id1", "title", "description", new Date(0L),
-                        Duration.ofMinutes(55), "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-                        null, null),
+                        Duration.ofMinutes(55).toMillis(), "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
+                        null,null),
                 new Video("id1", "title2", "description2", new Date(0L),
-                        Duration.ofMinutes(552), "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
-                        null, null))
+                        Duration.ofMinutes(552).getSeconds(), "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
+                        null,null))
         );
     }
 

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 @Entity
 @SuppressWarnings("squid:S2160")
 public class YouTubeChannel extends Source {
+    private static final String YOUTUBE_LINK_PREFIX = "https://www.youtube.com/watch?v=";
     private String channelLink;
 
     public YouTubeChannel() {
@@ -17,7 +18,7 @@ public class YouTubeChannel extends Source {
     }
 
     public YouTubeChannel(String name, DateTime lastHarvested, String channelLink) {
-        super(name, lastHarvested);
+        super(name, lastHarvested, YOUTUBE_LINK_PREFIX);
         this.channelLink = channelLink;
     }
 

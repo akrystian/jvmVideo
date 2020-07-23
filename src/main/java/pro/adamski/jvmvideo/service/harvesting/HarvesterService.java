@@ -10,8 +10,9 @@ import pro.adamski.jvmvideo.classes.exceptions.HarvestingException;
 import pro.adamski.jvmvideo.entity.Source;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.YouTubeChannel;
-import pro.adamski.jvmvideo.repository.SourceRepository;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.SourceRepository;
+import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
+import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
 import pro.adamski.jvmvideo.service.harvesting.youtube.YouTubeService;
 
 import javax.annotation.PostConstruct;
@@ -29,14 +30,17 @@ public class HarvesterService {
     private final YouTubeService youTubeService;
     private final SourceRepository sourceRepository;
     private final VideoRepository videoRepository;
+    private SearchVideoRepository videoSearchRepository;
 
     @Autowired
     public HarvesterService(YouTubeService youTubeService,
                             SourceRepository sourceRepository,
-                            VideoRepository videoRepository) {
+                            VideoRepository videoRepository,
+                            SearchVideoRepository videoSearchRepository) {
         this.youTubeService = youTubeService;
         this.sourceRepository = sourceRepository;
         this.videoRepository = videoRepository;
+        this.videoSearchRepository = videoSearchRepository;
     }
 
     @PostConstruct
@@ -102,7 +106,9 @@ public class HarvesterService {
 
     @Transactional
     private void harvestSingleVideo(YouTubeChannel channel, String videoId) throws IOException {
-        videoRepository.save(youTubeService.harvestVideoFromChannel(channel, videoId));
-    }
+        Video video = youTubeService.harvestVideoFromChannel(channel, videoId);
 
+        videoRepository.save(video);
+        videoSearchRepository.index(new VideoMapper(channel).map(video));
+    }
 }

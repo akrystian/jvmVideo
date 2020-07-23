@@ -109,7 +109,7 @@ public class YouTubeServiceTest {
         when(youTubeProxy.getVideo(videoId, STATS)).thenReturn(videos);
 
         VideoStatistic videoStatistics2 = new VideoStatistic(1L, 2L, 3L);
-        final Video old = new Video(videoId, title, description, new Date(1L), Duration.ZERO, "",
+        final Video old = new Video(videoId, title, description, new Date(1L), Duration.ZERO.toMillis(), "",
                 channel, videoStatistics2);
 
         //when

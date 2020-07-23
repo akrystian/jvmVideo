@@ -1,4 +1,4 @@
-package pro.adamski.jvmvideo.repository;
+package pro.adamski.jvmvideo.repository.jpa;
 
 import org.springframework.data.repository.Repository;
 import pro.adamski.jvmvideo.entity.Source;

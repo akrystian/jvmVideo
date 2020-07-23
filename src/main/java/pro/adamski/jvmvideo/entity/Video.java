@@ -1,12 +1,10 @@
 package pro.adamski.jvmvideo.entity;
 
 import com.google.common.base.Objects;
-import pro.adamski.jvmvideo.entity.converters.DurationConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.time.Duration;
 
 import static org.apache.commons.lang3.Validate.notNull;
 
@@ -23,8 +21,7 @@ public class Video {
     private String description;
     @NotNull
     private Date publishDate;
-    @Convert(converter = DurationConverter.class)
-    private Duration duration;
+    private long length;
     private String thumbnailLink;
     @ManyToOne
     private Source source;
@@ -39,22 +36,22 @@ public class Video {
     }
 
     @SuppressWarnings("squid:S2637")
-    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
+    public Video(String videoId, String title, String description, Date publishDate, long length,
                  String thumbnailLink, Source source) {
         this();
         this.publishDate = notNull(publishDate);
         this.videoId = videoId;
         this.title = title;
         this.description = description;
-        this.duration = duration;
+        this.length = length;
         this.thumbnailLink = thumbnailLink;
         this.source = source;
     }
 
     @SuppressWarnings({"squid:S00107", "squid:S2637"})
-    public Video(String videoId, String title, String description, Date publishDate, Duration duration,
+    public Video(String videoId, String title, String description, Date publishDate, long length,
                  String thumbnailLink, Source source, VideoStatistic statistic) {
-        this(videoId, title, description, publishDate, duration, thumbnailLink, source);
+        this(videoId, title, description, publishDate, length, thumbnailLink, source);
         this.statistic = statistic;
     }
 
@@ -74,8 +71,8 @@ public class Video {
         return publishDate;
     }
 
-    public Duration getDuration() {
-        return duration;
+    public long getLength() {
+        return length;
     }
 
     public String getThumbnailLink() {
@@ -84,10 +81,6 @@ public class Video {
 
     public Source getSource() {
         return source;
-    }
-
-    public String getVideoLink() {
-        return YOUTUBE_LINK_PREFIX + videoId;
     }
 
     @Override
@@ -109,5 +102,9 @@ public class Video {
 
     public VideoStatistic getStatistic() {
         return statistic;
+    }
+
+    public String getVideoLink() {
+        return YOUTUBE_LINK_PREFIX + videoId;
     }
 }

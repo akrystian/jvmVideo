@@ -6,7 +6,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
-import pro.adamski.jvmvideo.repository.VideoRepository;
+import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
+import pro.adamski.jvmvideo.repository.search.SearchVideoRepository;
 
 import java.sql.Date;
 import java.time.Duration;
@@ -23,6 +24,9 @@ public class VideoServiceTest {
     @MockBean
     private VideoRepository videoRepository;
 
+    @MockBean
+    private SearchVideoRepository searchVideoRepository;
+
     private VideoService instance;
 
     private Video videoA = new Video(
@@ -30,7 +34,7 @@ public class VideoServiceTest {
             "title2",
             "description2",
             new Date(0L),
-            Duration.ofMinutes(552),
+            Duration.ofMinutes(552).getSeconds(),
             "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
             null, null);
 

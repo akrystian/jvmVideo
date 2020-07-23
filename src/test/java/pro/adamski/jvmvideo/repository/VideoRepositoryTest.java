@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import pro.adamski.jvmvideo.entity.Video;
 import pro.adamski.jvmvideo.entity.VideoStatistic;
+import pro.adamski.jvmvideo.repository.jpa.VideoRepository;
 
 import java.sql.Date;
 import java.time.Duration;
@@ -42,7 +43,7 @@ public class VideoRepositoryTest {
                 "title2",
                 "description2",
                 new Date(0L),
-                Duration.ofMinutes(552),
+                Duration.ofMinutes(552).toMillis(),
                 "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
                 null, null);
         repository.save(videoA);
@@ -63,7 +64,7 @@ public class VideoRepositoryTest {
                 "title1",
                 "description1",
                 new Date(0L),
-                Duration.ofMinutes(552),
+                Duration.ofMinutes(552).toMillis(),
                 "https://i.ytimg.com/vi/zQll41ha5_g/default1.jpg",
                 null, new VideoStatistic(2, 1, 2));
         final Video videoB = new Video(
@@ -71,7 +72,7 @@ public class VideoRepositoryTest {
                 "title2",
                 "description2",
                 new Date(0L),
-                Duration.ofMinutes(552),
+                Duration.ofMinutes(552).toMillis(),
                 "https://i.ytimg.com/vi/zQll41ha5_g/default2.jpg",
                 null, new VideoStatistic(1, 2, 1));
         repository.save(videoA);
@@ -97,7 +98,7 @@ public class VideoRepositoryTest {
                 "title2",
                 "description2",
                 new Date(0L),
-                Duration.ofMinutes(552),
+                Duration.ofMinutes(552).toMillis(),
                 "https://i.ytimg.com/vi/zQll41ha5_g/default.jpg",
                 null, null);
         repository.save(videoA);

@@ -37,7 +37,7 @@ public class VideoMapper {
                 input.getSnippet().getTitle(),
                 input.getSnippet().getDescription(),
                 new Date(input.getSnippet().getPublishedAt().getValue()),
-                Duration.parse(input.getContentDetails().getDuration()),
+                Duration.parse(input.getContentDetails().getDuration()).toMillis(),
                 input.getSnippet().getThumbnails().getDefault().getUrl(),
                 source, statistic);
     }
